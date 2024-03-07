@@ -53,6 +53,6 @@ In addition, this project will include:
 - D-Day.
 
 # Bonuses:
-Display habitability index and corresponding color to planets that are classified.
-Improve orbital mechanics - utilize different libraries for better and more accurate visualizations of orbit, think 3D click/drag map,
-Use coordinates to find nearby star systems with alerts for habitable planets
+- Display habitability index and corresponding color to planets that are classified.
+- Improve orbital mechanics - utilize different libraries for better and more accurate visualizations of orbit, think 3D click/drag map,
+- Use coordinates to find nearby star systems with alerts for habitable planets
