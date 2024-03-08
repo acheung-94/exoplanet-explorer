@@ -1,0 +1,19 @@
+/*!*************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js!./src/index.scss ***!
+  \*************************************************************************************************************************************/
+.navlinks {
+  border: 5px solid purple;
+}
+
+.main-render {
+  border: 5px solid maroon;
+  cursor: crosshair;
+}
+
+.planet-card {
+  border: 5px solid yellow;
+}
+
+.stellar-card {
+  border: 5px solid navy;
+}
