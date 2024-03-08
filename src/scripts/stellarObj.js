@@ -2,12 +2,15 @@
 // scaled radius based on data (st_rad)
 import Planet from "./planetaryObj"
 
-class StellarObject {
-    constructor (view, starSystem){
-        this.pos = [view.dimensions["width"] / 2, view.dimensions["height"] / 2]
+class Star {
+    constructor (canvas, starSystem){
+        console.log(starSystem)
+        console.log(canvas)
+        this.pos = [canvas.width / 2, canvas.height / 2]
         this.radius = this.scaleRadius(starSystem[0]["st_rad"]) // given stellar radius in units of radius of the sun, scale to num pixels
         this.planets = []
-        this.color = "white"
+        this.color = "blue"
+        this.addPlanets(starSystem)
     }
     
     scaleRadius(radius){
@@ -18,7 +21,8 @@ class StellarObject {
     
     addPlanets(starSystem){
         starSystem.forEach( (planetData) => {
-            let planet = new Planet(planetData)
+            let planet = new Planet(planetData, this)
+            this.planets.push(planet)
         })
     }
 
@@ -26,11 +30,10 @@ class StellarObject {
     draw(ctx){
         //ctx.clearRect(0,0, this.pos[0]*2, this.pos[1]*2)
         ctx.beginPath()
-        ctx.arc(this.pos[0], this.pos[1], this.radius, 0, Math.PI * 2)
+        ctx.arc(...this.pos, this.radius, 0, Math.PI * 2)
         ctx.fillStyle = this.color
         ctx.fill()
-
     }
 }
 
-export default StellarObject;
+export default Star;

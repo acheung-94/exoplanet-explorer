@@ -1,12 +1,11 @@
 console.log(`hello!`)
 import View from "./scripts/view"
 import StellarObject from "./scripts/stellarObj"
+import renderObjects from "./scripts/view"
 
 function randomRARange() {
     let ra1 = Math.floor(Math.random() * 360)
     let ra2 = ra1 + 5
-    //console.log(ra1)
-    //console.log(ra2)
     if (ra2 >= 360) ra2 = 360;
     return `ra between ${ra1} and ${ra2}`
 }
@@ -44,17 +43,16 @@ function groupByHostName(data){
     return allSystems
 }
 
-
-
 //finally!
-const queryResults = []
-let canvas = document.querySelector('.canvas')
+
+let canvas = document.querySelector('.background') // i think I want two canvases... one for background and one for animation... that sounds like a good idea.
 canvas.height = 600
 canvas.width = 600
 let ctx = canvas.getContext('2d')
-
-let view = new View(canvas) // will be obsolete do not keep
-view.draw(ctx)
+ctx.fillStyle = "black"
+ctx.fillRect(0,0, canvas.width, canvas.height)
+// let view = new View(canvas) // will be obsolete do not keep
+// view.draw(ctx)
 
 // this purpose of this queue is to cache my queries.. they're expensive and take a long time to run!! I don't wnat to do that every time a user wants to generate a new result.
 let starSystemQueue = []
@@ -67,14 +65,12 @@ button.addEventListener("click", function(){
         console.log(`starSystemQueue should be empty: ${starSystemQueue}`)
         getStarSystemData() //hit the api and refresh the queue in the background. 
         // <yet uninitialized function for rendering stuff>
-        let render = new StellarObject(view, starSystem)
-        render.draw(ctx)// begin the render loop, but meanwhile
+        renderObjects(starSystem)
     }else {
         let starSystem = starSystemQueue.shift()
         //begin render loop using starSystem and ctx for data.
-        // at this point, use the function imported from view (maybe call it renderObjects)
-        let stellar = new StellarObject(view, starSystem)
-        stellar.draw(ctx)
+        // at this point, use the function imported from view (maybe call it renderObjects) pass in 
+        renderObjects(starSystem)
     }
 })
 

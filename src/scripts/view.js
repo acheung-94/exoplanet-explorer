@@ -4,22 +4,26 @@
 //starting to think it doesn't really make sense to have it be a class with a instance methods.. 
 //the background will likely not change from instance to instance.
 
-class View {
+import Star from "./stellarObj"
+
+function renderObjects ( starSystem ) {
     //should take in data from query to instantiate new objects
-    constructor(canvas){
-        this.canvas = canvas
-        this.ctx = canvas.getContext('2d')
-        this.dimensions = {"height": canvas.height, "width": canvas.width}
+    let animation = document.querySelector(".animations")
+    animation.width = 600
+    animation.height = 450
+    let renderCtx = animation.getContext('2d')
+
+    let hostStar = new Star(animation, starSystem)
+    let planets = hostStar.planets
+
+    function animate (renderCtx) {
+        hostStar.draw(renderCtx) //update to a different method, nothing is moving yet.
+        planets.forEach( (planet) => {
+            planet.draw(renderCtx)
+        })
     }
 
-    draw(ctx){
-        //draw canvas
-        ctx.fillStyle = "black"
-        console.log(ctx.width)
-        ctx.fillRect(0 ,0, this.dimensions["width"], this.dimensions["height"])
-        //draw objects
-    }
-    //animate loop?
+    requestAnimationFrame(animate(renderCtx), 20)
 }
 
-export default View;
+export default renderObjects;
