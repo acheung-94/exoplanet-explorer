@@ -24,7 +24,7 @@ function generateURL(){
 function groupByHostName(data){
     let hostNames = []
     data.forEach( (record) =>{
-        if (!hostNames.includes(record.hostname)){
+        if (record.hostname && !hostNames.includes(record.hostname)){
             hostNames.push(record.hostname)
         }
     })
@@ -65,10 +65,17 @@ button.addEventListener("click", function(){
         // <yet uninitialized function for rendering stuff>
         // begin the render loop, but meanwhile
         //hit the api and refresh the queue in the background. 
-        // starSystemQueue = starSystemQueue.concat(getStarSystemData())
+        let render = new StellarObject(view, starSystem)
+        render.draw(ctx)
+        starSystemQueue = starSystemQueue.concat(getStarSystemData())
     }else {
         let starSystem = starSystemQueue.shift()
-        //begin render loop using starSystem and ctx for data. 
+        //begin render loop using starSystem and ctx for data.
+        console.log(starSystemQueue)
+        // at this point, use the function imported from view (maybe call it renderObjects)
+        let stellar = new StellarObject(view, starSystem)
+        stellar.draw(ctx)
+        console.log(starSystemQueue) 
     }
 })
 
@@ -83,17 +90,12 @@ function getStarSystemData(){
             }
         }).then(data => {
             // return if data is present and valid
-            if (data) {
+            if (data.length) { // ie if length is not zero
                 console.log(starSystemQueue.concat(groupByHostName(data)))
                 starSystemQueue = starSystemQueue.concat(groupByHostName(data))
                 //recursively call itself until data.length > 0
-                console.log(starSystemQueue)
-                // at this point, use the function imported from view (maybe call it renderObjects)
-                let stellar = new StellarObject(view, starSystemQueue.shift())
-                stellar.draw(ctx)
-                console.log(starSystemQueue)
                 return groupByHostName(data)
-            }else{
+            }else{ // if data.lenght is zero (falsy right?)
                 let moreData = getStarSystemData()
                 return groupByHostName(moreData)
             }
