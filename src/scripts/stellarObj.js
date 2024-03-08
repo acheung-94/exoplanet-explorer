@@ -1,6 +1,6 @@
 // fixed position. center of canvas
 // scaled radius based on data (st_rad)
-
+import Planet from "./planetaryObj"
 
 class StellarObject {
     constructor (view, starSystem){
@@ -15,6 +15,13 @@ class StellarObject {
         let scaled = km * 0.00005
         return scaled
     }
+    
+    addPlanets(starSystem){
+        starSystem.forEach( (planetData) => {
+            let planet = new Planet(planetData)
+        })
+    }
+
 
     draw(ctx){
         //ctx.clearRect(0,0, this.pos[0]*2, this.pos[1]*2)
