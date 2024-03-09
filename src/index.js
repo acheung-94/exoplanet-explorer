@@ -1,7 +1,7 @@
 console.log(`hello!`)
 
 import View from "./scripts/view";
-import renderObjects from "./scripts/view"
+import populatePlanetChart from "./scripts/planetChart";
 
 function randomRARange() {
     let ra1 = Math.floor(Math.random() * 360)
@@ -73,6 +73,7 @@ button.addEventListener("click", function(){
         let starSystem = starSystemQueue.shift()
         let view = new View(starSystem, canvas)
         key = setInterval(() => view.animate(), 20)
+        populatePlanetChart(starSystem)
     }
 })
 
