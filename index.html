@@ -20,15 +20,58 @@
         </div>
     </nav>
 
-    <div class="main-render">
+    <div class="main-render"> <!-- 4 children -->
         <canvas class="background"></canvas>
         <!-- <canvas class="animations"></canvas> -->
-        <div class="planet-card" hidden> put some planet info here</div>
-    
-        <div class="stellar-card" hidden> put some star info here</div>
+        
+        <div class="star-card" hidden>
+            <h3>Spectral Class: </h3>
+                <h4 class="spectype"></h4>
+            <h3>Temperature: </h3>
+                <h4 class="stemp"></h4>
+            <h3>Mass:</h3>
+                <h4 class="smass"></h4>
+            <h3>Radius (in units of solar radius): </h3>
+                <h4 class="sradius"></h4>
+            <h3>Metallicity:</h3>
+                <h4 class="metallicity"></h4>
+                <!-- maybe something indicating green/red based on habitability req? high metallicity good. -->
+            <h3>Luminosity</h3>
+                <h4 class="luminosity"></h4>
+            <h3>Coordinates</h3>
+                <h4 class="coordinates"></h4>
+            <h3>Distance from Earth: </h3>
+                <h4 class="distance"></h4>
+        </div>
+
+        <div class="sys-name">
+            <h2 class="host-star"></h2>
+        </div>
+
+        <div class="planet-card" hidden> 
+            <h3 class="pname"></h3>
+            <h3>Radius:</h3>
+                <h4 class="pradius"></h4>
+            <h3>Mass:</h3>
+                <h4 class="pmass"></h4>
+            <h3>Density:</h3>
+                <h4 class="pdensity"></h4>
+            <h3>Temperature: </h3>
+                <h4 class="ptemp"></h4>
+            <h3>Orbital Period:</h3>
+                <h4 class="porb-per"></h4>
+            <h3>Discovery Year:</h3>
+                <h4 class="pdisc-year"></h4>
+            <h3>Discovery Facility: </h3>
+                <h4 class="pdisc-facility"></h4>
+            <h3>Detection Method: </h3>
+                <h4 class="pdisc-method"></h4>
+           <button class="close-pcard">Close</button>
+        </div>
+        
     
     </div>
 
-    <button> Find a New Star System</button>
+    <button class="explore"> Find a New Star System</button>
 </body>
 </html>

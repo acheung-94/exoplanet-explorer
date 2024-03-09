@@ -1,7 +1,9 @@
 console.log(`hello!`)
 
 import View from "./scripts/view";
-import populatePlanetChart from "./scripts/planetChart";
+//import * as PlanetChart from "./scripts/planetChart";
+import * as StarChart from "./scripts/starChart"
+
 
 function randomRARange() {
     let ra1 = Math.floor(Math.random() * 360)
@@ -43,7 +45,6 @@ function groupByHostName(data){
     return allSystems
 }
 
-//finally!
 
 let canvas = document.querySelector('.background') // i think I want two canvases... one for background and one for animation... that sounds like a good idea.
 canvas.height = 600
@@ -58,22 +59,25 @@ ctx.fillRect(0,0, canvas.width, canvas.height)
 let starSystemQueue = []
 let key;
 
-const button = document.querySelector("button")
-button.addEventListener("click", function(){
+const explore = document.querySelector(".explore")
+explore.addEventListener("click", function(){
+
     clearInterval(key)
+
     if (starSystemQueue.length < 2){
         let starSystem = starSystemQueue.shift()
-        console.log(`starSystemQueue should be empty: ${starSystemQueue}`)
+        StarChart.populateStarChart(starSystem)
+        
         getStarSystemData() //hit the api and refresh the queue in the background. 
         
         let view = new View(starSystem, canvas)
         key = setInterval(view.animate(), 20)
     }else {
-        //clearInterval(key)
         let starSystem = starSystemQueue.shift()
+        StarChart.populateStarChart(starSystem)
+        console.log(`hello?`)
         let view = new View(starSystem, canvas)
         key = setInterval(() => view.animate(), 20)
-        populatePlanetChart(starSystem)
     }
 })
 

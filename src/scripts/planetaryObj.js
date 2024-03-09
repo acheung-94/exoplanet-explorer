@@ -10,6 +10,7 @@ class Planet {
         this.vel = this.angularVelocity(planetData["pl_orbper"]) // radians per frame
         this.x = hostStar.pos[0] + (this.distance * Math.cos(this.angle)) // pos updated every time draw gets called.
         this.y = hostStar.pos[1] + (this.distance * Math.sin(this.angle))
+        console.log(this.name, this.vel) // for adjustment
     }
 
     scaleRadius(radius, hostStar) {
