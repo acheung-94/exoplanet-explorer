@@ -38,6 +38,10 @@ class Star {
         ctx.fillStyle = this.color
         ctx.fill()
     }
+
+    update(){
+        //this will be for updating the chart with new data...
+    }
 }
 
 export default Star;

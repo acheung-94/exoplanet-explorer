@@ -6,24 +6,36 @@
 
 import Star from "./stellarObj"
 
-function renderObjects ( starSystem ) {
+class View {
+
+    constructor( starSystem, canvas ) {
+        this.canvas = canvas
+        console.log(`this should only happen once per button click...`)
+        this.ctx = canvas.getContext("2d")
+        this.starSystem = starSystem
+        this.hostStar = new Star(canvas, starSystem)
+        this.planets = this.hostStar.planets
+    } 
     //should take in data from query to instantiate new objects
-    let animation = document.querySelector(".animations")
-    animation.width = 600
-    animation.height = 450
-    let renderCtx = animation.getContext('2d')
-
-    let hostStar = new Star(animation, starSystem)
-    let planets = hostStar.planets
-
-    function animate (renderCtx) {
-        hostStar.draw(renderCtx) //update to a different method, nothing is moving yet.
-        planets.forEach( (planet) => {
-            planet.draw(renderCtx)
+    // let animation = document.querySelector(".animations")
+    // animation.width = 600
+    // animation.height = 450
+    // let renderCtx = animation.getContext('2d')
+    animate () {//update to a different method, nothing is moving yet./
+        this.draw(this.ctx)
+        this.hostStar.draw(this.ctx)
+        this.planets.forEach ( (planet) => {
+            planet.move()
+            planet.draw(this.ctx)
         })
     }
-    console.log(this, window)
-    setInterval(animate(renderCtx), 20)
+
+    draw(ctx){
+        ctx.clearRect(0,0, this.canvas.width, this.canvas.height)
+        ctx.fillStyle = "black"
+        ctx.fillRect(0,0, this.canvas.width, this.canvas.height)
+    }
+   
 }
 
-export default renderObjects;
+export default View;

@@ -21,7 +21,7 @@ In addition, this project will include:
 
 
 # Wireframe:
-![wireframe](wireframe.png)
+![wireframe](assets/wireframe.png)
 - Title: contains information about the app
 - Overview: contains the main canvas (perhaps the only canvas) Here, the star will be at a fixed location in the center of the frame, and the planets will be orbiting along the x axis (for ease). Each planet will be clickable and will pause animation, bringing up its data card.
 - Stellar info - a hidden display toggled on/off by clicking on the star. 
@@ -36,23 +36,23 @@ In addition, this project will include:
 - npm
 
 # Implementation Timeline:
-###Thursday & Friday:
+### Thursday & Friday:
 - Set up HTML skeleton and implement classes for Star and Planet - identify specific data needed to implement movement, and data for display.
 - Query logistics - test requests to TAP service and work out those problems.
-###Saturday & Sunday:
+### Saturday & Sunday:
 - Start logic for movement of planets (crash course in physics)
 - Start implementing event handlers & data displays
-###Monday 
+### Monday 
 - Continue planetary movement - if successful, move on
 - Continue/finish event handlers & data displays
-###Tuesday
+### Tuesday
 - Make any optimizations as necessary
-###Wednesday
+### Wednesday
 - CSS styling. 
-###Thursday
+### Thursday
 - D-Day.
 
 # Bonuses:
 - Display habitability index and corresponding color to planets that are classified.
-- Improve orbital mechanics - utilize different libraries for better and more accurate visualizations of orbit, think 3D click/drag map,
+- Improve orbital mechanics - utilize different libraries for better and more accurate visualizations of orbit, think 3D click/drag map.
 - Use coordinates to find nearby star systems with alerts for habitable planets

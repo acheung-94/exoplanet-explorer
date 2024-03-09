@@ -1,6 +1,6 @@
 console.log(`hello!`)
-import View from "./scripts/view"
-import StellarObject from "./scripts/stellarObj"
+
+import View from "./scripts/view";
 import renderObjects from "./scripts/view"
 
 function randomRARange() {
@@ -65,12 +65,14 @@ button.addEventListener("click", function(){
         console.log(`starSystemQueue should be empty: ${starSystemQueue}`)
         getStarSystemData() //hit the api and refresh the queue in the background. 
         // <yet uninitialized function for rendering stuff>
-        renderObjects(starSystem)
+        let view = new View(starSystem, canvas)
+        setInterval(view.animate(), 20)
     }else {
         let starSystem = starSystemQueue.shift()
         //begin render loop using starSystem and ctx for data.
         // at this point, use the function imported from view (maybe call it renderObjects) pass in 
-        renderObjects(starSystem)
+        let view = new View(starSystem, canvas)
+        setInterval(() => view.animate(), 20)
     }
 })
 
