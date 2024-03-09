@@ -22,8 +22,8 @@ function renderObjects ( starSystem ) {
             planet.draw(renderCtx)
         })
     }
-
-    requestAnimationFrame(animate(renderCtx), 20)
+    console.log(this, window)
+    setInterval(animate(renderCtx), 20)
 }
 
 export default renderObjects;
