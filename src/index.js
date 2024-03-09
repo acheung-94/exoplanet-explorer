@@ -56,22 +56,23 @@ ctx.fillRect(0,0, canvas.width, canvas.height)
 
 // this purpose of this queue is to cache my queries.. they're expensive and take a long time to run!! I don't wnat to do that every time a user wants to generate a new result.
 let starSystemQueue = []
+let key;
 
 const button = document.querySelector("button")
 button.addEventListener("click", function(){
-    console.log(starSystemQueue.length)
+    clearInterval(key)
     if (starSystemQueue.length < 2){
         let starSystem = starSystemQueue.shift()
         console.log(`starSystemQueue should be empty: ${starSystemQueue}`)
         getStarSystemData() //hit the api and refresh the queue in the background. 
-        // <yet uninitialized function for rendering stuff>
+        
         let view = new View(starSystem, canvas)
-        setInterval(view.animate(), 20)
+        key = setInterval(view.animate(), 20)
     }else {
-        //need to stop the current animation!!
+        //clearInterval(key)
         let starSystem = starSystemQueue.shift()
         let view = new View(starSystem, canvas)
-        setInterval(() => view.animate(), 20)
+        key = setInterval(() => view.animate(), 20)
     }
 })
 

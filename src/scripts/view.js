@@ -16,11 +16,7 @@ class View {
         this.hostStar = new Star(canvas, starSystem)
         this.planets = this.hostStar.planets
     } 
-    //should take in data from query to instantiate new objects
-    // let animation = document.querySelector(".animations")
-    // animation.width = 600
-    // animation.height = 450
-    // let renderCtx = animation.getContext('2d')
+
     animate () {//update to a different method, nothing is moving yet./
         this.draw(this.ctx)
         this.hostStar.draw(this.ctx)
