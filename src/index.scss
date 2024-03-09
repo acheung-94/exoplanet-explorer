@@ -1,10 +1,13 @@
 .navlinks{
     border: 5px solid purple;
-
+    display: flex;
+    justify-content: space-evenly;
 }
 .main-render{
     border: 5px solid maroon;
     cursor: crosshair;
+    display: flex;
+    justify-content: center;
 }
 
 .planet-card{

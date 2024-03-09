@@ -42,9 +42,7 @@ class Planet {
 
 
     angularVelocity (orbPer){
-        console.log(orbPer)
         let velocity = ((Math.PI * 2) / (orbPer * 50)) // equates to radians per frame, ie the amount the planet must move per frame.
-        console.log(velocity)
         return velocity 
     }
 
@@ -56,15 +54,10 @@ class Planet {
         ctx.fill()
     }
 
-    move(){
-        
+    move(){    
         this.angle += this.vel // add this many radians to the current angle.
-        //update x and y positions
-        console.log(this.x, this.y)
         this.x = this.hostStar.pos[0] + (this.distance * Math.cos(this.angle))
-        this.y = this.hostStar.pos[1] + (this.distance * Math.sin(this.angle))
-        console.log(this.x, this.y)
-        
+        this.y = this.hostStar.pos[1] + (this.distance * Math.sin(this.angle))  
     }
 
 }

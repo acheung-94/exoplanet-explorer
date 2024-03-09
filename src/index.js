@@ -68,9 +68,8 @@ button.addEventListener("click", function(){
         let view = new View(starSystem, canvas)
         setInterval(view.animate(), 20)
     }else {
+        //need to stop the current animation!!
         let starSystem = starSystemQueue.shift()
-        //begin render loop using starSystem and ctx for data.
-        // at this point, use the function imported from view (maybe call it renderObjects) pass in 
         let view = new View(starSystem, canvas)
         setInterval(() => view.animate(), 20)
     }
