@@ -8,8 +8,8 @@ class Planet {
         this.angle = (Math.random() * (Math.PI*2)) // random starting angle in radians.
         this.color = "pink" // planetData["pl_insol"]
         this.vel = this.angularVelocity(planetData["pl_orbper"]) // radians per frame
-        this.x = hostStar.pos[0] + (this.distance * Math.cos(this.angle)) // pos updated every time draw gets called.
-        this.y = hostStar.pos[1] + (this.distance * Math.sin(this.angle))
+        this.x = hostStar.pos.x + (this.distance * Math.cos(this.angle)) // pos updated every time draw gets called.
+        this.y = hostStar.pos.y + (this.distance * Math.sin(this.angle))
         //console.log(this.name, this.vel) // for adjustment
     }
 
@@ -28,9 +28,9 @@ class Planet {
         semiMajorAxis ??= 10
 
         if (semiMajorAxis <= 5){
-            console.log(semiMajorAxis)
+            //console.log(semiMajorAxis)
             let adjusted = hostStar.radius + 25 + ((semiMajorAxis/10) * 50)
-            console.log(adjusted)
+            //console.log(adjusted)
             return adjusted
         }else if (semiMajorAxis > 5 && semiMajorAxis < 100) {
             return hostStar.radius + 50 + ((semiMajorAxis / 100) * 50)
@@ -64,8 +64,8 @@ class Planet {
 
     move(){    
         this.angle += this.vel // add this many radians to the current angle.
-        this.x = this.hostStar.pos[0] + (this.distance * Math.cos(this.angle))
-        this.y = this.hostStar.pos[1] + (this.distance * Math.sin(this.angle))
+        this.x = this.hostStar.pos.x + (this.distance * Math.cos(this.angle))
+        this.y = this.hostStar.pos.y + (this.distance * Math.sin(this.angle))
 
     }
 

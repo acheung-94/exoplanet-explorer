@@ -3,8 +3,8 @@ console.log(`hello!`)
 import View from "./scripts/view";
 //import * as PlanetChart from "./scripts/planetChart";
 import * as StarChart from "./scripts/starChart"
-
-
+import Star from "./scripts/stellarObj";
+// SECTION : HELPERS
 function randomRARange() {
     let ra1 = Math.floor(Math.random() * 360)
     let ra2 = ra1 + 5
@@ -16,7 +16,10 @@ function generateURL(){
     const url = `https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=`
     let dec = `between 0 and 180`
     let raRange = `${randomRARange()}`
+    let plColumns = `pl_name,pl_rade,pl_masse,pl_dens,pl_eqt,pl_orbper,pl_orbsmax,disc_year,disc_facility,discoverymethod,`
+    let stColumns = `hostname,st_spectype,st_teff,st_mass,st_rad,st_met,st_metratio,st_lum,rastr,decstr,sy_dist`
     let query = `select * from pscomppars where sy_snum = 1 and sy_pnum >= 2 and ${raRange} and dec ${dec}`
+    //i think there might be a size limit to the request URL ... this is pretty hairy
     query = query.split(" ").join("+")
     let result = encodeURIComponent(`${url}${query}&format=json`)
     return result
@@ -45,6 +48,34 @@ function groupByHostName(data){
     return allSystems
 }
 
+function getMousePos(canvas, event){
+    let pos = {};
+    let rect = canvas.getBoundingClientRect();
+    pos.x = event.clientX - rect.left;
+    pos.y = event.clientY - rect.top;
+    return pos
+}
+
+function getDistance(mouse, star){
+    let a = (mouse.x - star.x)**2
+    let b = (mouse.y - star.y)**2
+    return Math.sqrt(a+b)
+}
+
+function updateAnimation(){
+    if (!animating){ // if animating is set to false, pause interval
+        clearInterval(refreshKey)
+    }else{ // if true, then continue animating? 
+        refreshKey = setInterval(()=> currentView.animate(), 20)
+    }
+}
+// SECTION : VARIABLES 
+let starSystemQueue = []
+let refreshKey;
+let currentView;
+let checkerKey;
+
+let animating = false
 
 let canvas = document.querySelector('.background') // i think I want two canvases... one for background and one for animation... that sounds like a good idea.
 canvas.height = 600
@@ -52,39 +83,54 @@ canvas.width = 600
 let ctx = canvas.getContext('2d')
 ctx.fillStyle = "black"
 ctx.fillRect(0,0, canvas.width, canvas.height)
-// let view = new View(canvas) // will be obsolete do not keep
-// view.draw(ctx)
 
-// this purpose of this queue is to cache my queries.. they're expensive and take a long time to run!! I don't wnat to do that every time a user wants to generate a new result.
-let starSystemQueue = []
-let key;
 
+// SECTION : EVENT LISTENERS
 const explore = document.querySelector(".explore")
 explore.addEventListener("click", function(){
 
-    clearInterval(key)
-
+    clearInterval(refreshKey)
+    let starSystem = starSystemQueue.shift()
+    StarChart.populateStarChart(starSystem)
+    currentView = new View(starSystem, canvas)
+    animating = true
+    refreshKey = setInterval(() => currentView.animate(), 20)
+   
     if (starSystemQueue.length < 2){
-        let starSystem = starSystemQueue.shift()
-        StarChart.populateStarChart(starSystem)
-        
         getStarSystemData() //hit the api and refresh the queue in the background. 
-        
-        let view = new View(starSystem, canvas)
-        key = setInterval(() => view.animate(), 20)
-    }else {
-        let starSystem = starSystemQueue.shift()
-        //TODO: consider implementing a filter on the data object's keys... 200 is too many and makes it difficult to programatically handle its values. 
-        StarChart.populateStarChart(starSystem)
-        console.log(`hello?`)
-        let view = new View(starSystem, canvas)
-        key = setInterval(() => view.animate(), 20)
     }
+    
 })
 
-//name this function to invoke inside the event handler.. do i need to designate it as an async function? :/ I do want it to repopulate the queue in the background... 
-// well let's just start with it being a normal function that returns something I can save to a variable & concat to the Queue.
 
+canvas.addEventListener("mousemove", function pauseAnimation(event) {
+    let boundary = currentView.hostStar.radius
+    
+    let starPos = currentView.hostStar.pos
+
+    let mousePos = getMousePos(canvas, event)
+    let distance = getDistance(mousePos, starPos)
+    if (distance <= boundary){
+        animating = false
+    }else{
+        animating = true
+    }
+
+
+    // checkerKey = setInterval(() => {
+    //     // solved the scope problem
+    //     let mousePos = getMousePos(canvas, event)
+    //     let distance = getDistance(mousePos, starPos)
+    //     if (distance <= boundary){
+    //         animating = false
+    //     }else{
+    //         animating = true
+    //     }
+    // }, 1000)
+})
+
+
+// SECTION : RESOURCE QUERIES
 function getStarSystemData(){
     return fetch(`https://cors-proxy-xphi.onrender.com/?url=` + generateURL())
         .then((res) => {
@@ -109,7 +155,13 @@ function getStarSystemData(){
         }).catch((err)=> console.error(err))
 }
 
+function getMusic () {
+    // last item, connect to soundcloud API
+}
+
+// SECTION : PAGE INITIALIZATION FUNCTIONS
 getStarSystemData()
 
-
-
+// while (animating) {
+//     refreshKey = setInterval(() => currentView.animate(), 20)
+// }

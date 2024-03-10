@@ -1,22 +1,21 @@
-// fixed position. center of canvas
-// scaled radius based on data (st_rad)
+
 import Planet from "./planetaryObj"
 
 class Star {
     constructor (canvas, starSystem){
         if (canvas){ // if there *is* a canvas passed in, do full construction.
-        this.pos = [canvas.width / 2, canvas.height / 2]
+        this.pos = { "x" : canvas.width / 2,
+                     "y" : canvas.height / 2}
         this.class = this.setStellarClass(starSystem[0])
         this.radius = this.scaleRadius(starSystem[0]["st_rad"]) // given stellar radius in units of radius of the sun, scale to num pixels
         this.planets = []
         this.color = this.scaleColorByTemperature(starSystem[0]["st_teff"])
         this.addPlanets(starSystem)
-        console.log(this.radius)
+        //console.log(this.radius)
         }else { // if no canvas, or canvas is 0, just initialize the class.
             this.class = this.setStellarClass(starSystem[0])
         }
         
-
     }
     setStellarClass(system){
         if (system["st_spectype"]){ // some entries have null for spectral type.
@@ -94,7 +93,7 @@ class Star {
 
     draw(ctx){
         ctx.beginPath()
-        ctx.arc(...this.pos, this.radius, 0, Math.PI * 2)
+        ctx.arc(this.pos.x,this.pos.y, this.radius, 0, Math.PI * 2)
         ctx.fillStyle = this.color
         ctx.fill()
         ctx.shadowColor = this.color
