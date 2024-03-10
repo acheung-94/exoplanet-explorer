@@ -8,8 +8,9 @@ class Planet {
         this.angle = (Math.random() * (Math.PI*2)) // random starting angle in radians.
         this.color = "pink" // planetData["pl_insol"]
         this.vel = this.angularVelocity(planetData["pl_orbper"]) // radians per frame
-        this.x = hostStar.pos.x + (this.distance * Math.cos(this.angle)) // pos updated every time draw gets called.
-        this.y = hostStar.pos.y + (this.distance * Math.sin(this.angle))
+        this.pos = { "x" : hostStar.pos.x + (this.distance * Math.cos(this.angle)),
+                     "y" : hostStar.pos.y + (this.distance * Math.sin(this.angle))}
+
         //console.log(this.name, this.vel) // for adjustment
     }
 
@@ -57,15 +58,15 @@ class Planet {
     draw(ctx){
          
         ctx.beginPath()
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+        ctx.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2)
         ctx.fillStyle = this.color
         ctx.fill()
     }
 
     move(){    
         this.angle += this.vel // add this many radians to the current angle.
-        this.x = this.hostStar.pos.x + (this.distance * Math.cos(this.angle))
-        this.y = this.hostStar.pos.y + (this.distance * Math.sin(this.angle))
+        this.pos.x = this.hostStar.pos.x + (this.distance * Math.cos(this.angle))
+        this.pos.y = this.hostStar.pos.y + (this.distance * Math.sin(this.angle))
 
     }
 

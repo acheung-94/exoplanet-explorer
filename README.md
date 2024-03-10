@@ -54,5 +54,6 @@ In addition, this project will include:
 
 # Bonuses:
 - Display habitability index and corresponding color to planets that are classified.
-- Improve orbital mechanics - utilize different libraries for better and more accurate visualizations of orbit, think 3D click/drag map.
+- Improve orbital mechanics - consider recalculating elliptical orbits with varying inclinations
 - Use coordinates to find nearby star systems with alerts for habitable planets
+- add music

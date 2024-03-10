@@ -62,12 +62,22 @@ function getDistance(mouse, star){
     return Math.sqrt(a+b)
 }
 
-function updateAnimation(){
-    if (!animating){ // if animating is set to false, pause interval
-        clearInterval(refreshKey)
-    }else{ // if true, then continue animating? 
-        refreshKey = setInterval(()=> currentView.animate(), 20)
-    }
+function getPlanetBoundaries(mouse, planets){
+    let plBoundaries = []
+    planets.forEach( (planet) => {
+        plBoundaries.push(planet.radius)
+    })
+    return plBoundaries
+}
+function getPlanetDistances(mouse, planetPos){
+    let positions = []
+    planets.forEach( ( planet ) => {
+        positions.push(planet.pos)
+    })
+}
+function startAnimation(){
+    refreshKey = setInterval(()=> currentView.animate(), 20)
+    
 }
 // SECTION : VARIABLES 
 let starSystemQueue = []
@@ -93,9 +103,9 @@ explore.addEventListener("click", function(){
     let starSystem = starSystemQueue.shift()
     StarChart.populateStarChart(starSystem)
     currentView = new View(starSystem, canvas)
-    animating = true
     refreshKey = setInterval(() => currentView.animate(), 20)
-   
+    animating = true
+    
     if (starSystemQueue.length < 2){
         getStarSystemData() //hit the api and refresh the queue in the background. 
     }
@@ -110,12 +120,16 @@ canvas.addEventListener("mousemove", function pauseAnimation(event) {
 
     let mousePos = getMousePos(canvas, event)
     let distance = getDistance(mousePos, starPos)
-    if (distance <= boundary){
+    if (distance <= boundary && animating === true){
         animating = false
-    }else{
+        clearInterval(refreshKey)
+    }
+    if (distance > boundary && animating === false){
+        startAnimation()
         animating = true
     }
-
+    //IMPLEMENT PLANET PAUSE? 
+    // ON CLICK REMOVE THIS LISTENER? 
 
     // checkerKey = setInterval(() => {
     //     // solved the scope problem
