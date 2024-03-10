@@ -3,7 +3,38 @@ console.log(`hello!`)
 import View from "./scripts/view";
 //import * as PlanetChart from "./scripts/planetChart";
 import * as StarChart from "./scripts/starChart"
+import * as PlanetChart from "./scripts/planetChart"
 import Star from "./scripts/stellarObj";
+
+// SECTION : RESOURCE QUERIES
+function getStarSystemData(){
+    return fetch(`https://cors-proxy-xphi.onrender.com/?url=` + generateURL())
+        .then((res) => {
+            if (res.ok){
+            return res.json();
+            }
+        }).then(data => {
+            if (data.length) { // ie if length is not zero
+                console.log(`data.length > 0 .. returning now`)
+                console.log(groupByHostName(data))
+                return groupByHostName(data)
+            }else{ // if data.lenght is zero (falsy)
+                console.log(`came up empty, trying again`)
+                return getStarSystemData()
+                //recursively call itself until data.length > 0
+            }
+        }).then( (sortedData)=>{
+            if (sortedData) {
+                starSystemQueue = starSystemQueue.concat(sortedData)
+                console.log(starSystemQueue)
+            }
+        }).catch((err)=> console.error(err))
+}
+
+function getMusic () {
+    // last item, connect to soundcloud API
+}
+
 // SECTION : HELPERS
 function randomRARange() {
     let ra1 = Math.floor(Math.random() * 360)
@@ -56,34 +87,20 @@ function getMousePos(canvas, event){
     return pos
 }
 
-function getDistance(mouse, star){
-    let a = (mouse.x - star.x)**2
-    let b = (mouse.y - star.y)**2
+function getDistance(mouse, object){
+    let a = (mouse.x - object.x)**2
+    let b = (mouse.y - object.y)**2
     return Math.sqrt(a+b)
 }
 
-function getPlanetBoundaries(mouse, planets){
-    let plBoundaries = []
-    planets.forEach( (planet) => {
-        plBoundaries.push(planet.radius)
-    })
-    return plBoundaries
-}
-function getPlanetDistances(mouse, planetPos){
-    let positions = []
-    planets.forEach( ( planet ) => {
-        positions.push(planet.pos)
-    })
-}
 function startAnimation(){
     refreshKey = setInterval(()=> currentView.animate(), 20)
-    
 }
 // SECTION : VARIABLES 
 let starSystemQueue = []
 let refreshKey;
 let currentView;
-let checkerKey;
+
 
 let animating = false
 
@@ -105,77 +122,73 @@ explore.addEventListener("click", function(){
     currentView = new View(starSystem, canvas)
     refreshKey = setInterval(() => currentView.animate(), 20)
     animating = true
-    
+    pause.innerText = "Pause Animation"
     if (starSystemQueue.length < 2){
         getStarSystemData() //hit the api and refresh the queue in the background. 
     }
     
 })
 
-
-canvas.addEventListener("mousemove", function pauseAnimation(event) {
-    let boundary = currentView.hostStar.radius
-    
-    let starPos = currentView.hostStar.pos
-
-    let mousePos = getMousePos(canvas, event)
-    let distance = getDistance(mousePos, starPos)
-    if (distance <= boundary && animating === true){
-        animating = false
+const pause = document.querySelector(".pause")
+pause.addEventListener("click", ()=>{
+    if (animating) {
         clearInterval(refreshKey)
-    }
-    if (distance > boundary && animating === false){
+        animating = false
+        pause.innerText = "Resume animation"
+    }else{
         startAnimation()
         animating = true
+        pause.innerText = "Pause animation"
     }
-    //IMPLEMENT PLANET PAUSE? 
-    // ON CLICK REMOVE THIS LISTENER? 
-
-    // checkerKey = setInterval(() => {
-    //     // solved the scope problem
-    //     let mousePos = getMousePos(canvas, event)
-    //     let distance = getDistance(mousePos, starPos)
-    //     if (distance <= boundary){
-    //         animating = false
-    //     }else{
-    //         animating = true
-    //     }
-    // }, 1000)
 })
 
+//click on planet
+canvas.addEventListener("click", (event)=>{
+    let mousePos = getMousePos(canvas, event)
+    currentView.hostStar.planets.forEach((planet) => {
+        let distance = getDistance(mousePos, planet.pos)
+        if (distance <= (planet.radius + 5)) { // added a 5 px radius buffer for the baby planets
+            console.log(currentView.starSystem)
+            PlanetChart.renderPlanetChart(planet, currentView.starSystem)
+        }
+    })
+})
 
-// SECTION : RESOURCE QUERIES
-function getStarSystemData(){
-    return fetch(`https://cors-proxy-xphi.onrender.com/?url=` + generateURL())
-        .then((res) => {
-            if (res.ok){
-            return res.json();
-            }
-        }).then(data => {
-            if (data.length) { // ie if length is not zero
-                console.log(`data.length > 0 .. returning now`)
-                console.log(groupByHostName(data))
-                return groupByHostName(data)
-            }else{ // if data.lenght is zero (falsy)
-                console.log(`came up empty, trying again`)
-                return getStarSystemData()
-                //recursively call itself until data.length > 0
-            }
-        }).then( (sortedData)=>{
-            if (sortedData) {
-                starSystemQueue = starSystemQueue.concat(sortedData)
-                console.log(starSystemQueue)
-            }
-        }).catch((err)=> console.error(err))
-}
+//click on star
+canvas.addEventListener("click", (event) => {
+    let mousePos = getMousePos(canvas, event)
+    let distance = getDistance(mousePos, currentView.hostStar.pos)
+    if (distance <= currentView.hostStar.radius){
+        StarChart.renderStarChart()
+    }
+})
 
-function getMusic () {
-    // last item, connect to soundcloud API
-}
+// canvas.addEventListener("mousemove", function pauseAnimation(event) {
+//     //let boundary = currentView.hostStar.radius
+//     //let planetRadii = getPlanetRadii(currentView.hostStar.planets)
+//     //let starPos = currentView.hostStar.pos
+//     //let planetPositions = getPlanetPositions(currentView.hostStar.planets)
+//     let mousePos = getMousePos(canvas, event)
+//     currentView.hostStar.planets.forEach( (planet) => {
+//         console.log(planet)
+//         let distance = getDistance(mousePos, planet.pos)
+//         if (distance <= planet.radius && animating === true){
+//             animating = false
+//             clearInterval(refreshKey)
+//         }
+//         if (distance > planet.radius && animating === false){
+//             startAnimation()
+//             animating = true
+//             console.log(`uh oh`)
+//         }
+//     })
+//     // ok. so it keeps restarting the animation because there's always
+//     // going to be one planet where the else clause is true, thus restarting
+//     // the animation...
+//     // sigh. maybe i have to just create a click to pause...
+// })
+
+
 
 // SECTION : PAGE INITIALIZATION FUNCTIONS
 getStarSystemData()
-
-// while (animating) {
-//     refreshKey = setInterval(() => currentView.animate(), 20)
-// }

@@ -38,9 +38,9 @@ export function populateStarChart(starSystem) {
     distance.innerText = `${star.sy_dist} parsecs`
 }
 
-export function renderStarChart(star) {
+export function renderStarChart() {
     let starCard = document.querySelector(".star-card")
-    populateStarChart(star);
+    //populateStarChart(star);
     starCard.hidden = false;
 }
 
