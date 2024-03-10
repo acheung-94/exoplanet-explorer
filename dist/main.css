@@ -1,10 +1,31 @@
 /*!*************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js!./src/index.scss ***!
   \*************************************************************************************************************************************/
+@font-face {
+  font-family: Teko;
+  src: url(/assets/fonts/Teko-VariableFont_wght.ttf);
+}
+body {
+  font-family: Teko;
+}
+
+h1, h2, h3 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+h4 {
+  letter-spacing: 1px;
+}
+
 .navlinks {
   border: 5px solid purple;
   display: flex;
   justify-content: space-evenly;
+}
+
+.background {
+  z-index: 1;
 }
 
 .main-render {
@@ -25,4 +46,10 @@
 .animations {
   position: absolute;
   z-index: 1;
+}
+
+.ref {
+  background-color: purple;
+  width: 100px;
+  height: 100px;
 }

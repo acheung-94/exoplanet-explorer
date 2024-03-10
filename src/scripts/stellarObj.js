@@ -4,12 +4,18 @@ import Planet from "./planetaryObj"
 
 class Star {
     constructor (canvas, starSystem){
+        if (canvas){ // if there *is* a canvas passed in, do full construction.
         this.pos = [canvas.width / 2, canvas.height / 2]
         this.class = this.setStellarClass(starSystem[0])
         this.radius = this.scaleRadius(starSystem[0]["st_rad"]) // given stellar radius in units of radius of the sun, scale to num pixels
         this.planets = []
         this.color = this.scaleColorByTemperature(starSystem[0]["st_teff"])
         this.addPlanets(starSystem)
+        console.log(this.radius)
+        }else { // if no canvas, or canvas is 0, just initialize the class.
+            this.class = this.setStellarClass(starSystem[0])
+        }
+        
 
     }
     setStellarClass(system){
@@ -67,8 +73,12 @@ class Star {
         let km = radius * 695700
         let scaled = km * 0.00005
         
-        if (scaled >= (this.pos[1] * 2)){
-            return scaled * 0.3
+        if (scaled >= 200 ){
+            return scaled * (Math.random() * (1.5 - 1.0) + 1.0)
+        }else if ( scaled < 50) {
+            scaled = scaled * (Math.random() * (2.0 - 1.5) + 1.5) 
+            console.log(`resized: ${scaled}`)
+            return scaled
         }else{
             return scaled
         }
@@ -91,9 +101,6 @@ class Star {
         ctx.shadowBlur = (Math.random() * 5)
     }
 
-    update(){
-        //this will be for updating the chart with new data...
-    }
 }
 
 export default Star;

@@ -1,13 +1,35 @@
+@font-face{
+    font-family: Teko;
+    src: url(/assets/fonts/Teko-VariableFont_wght.ttf)
+}
+
+body{
+    font-family: Teko;
+}
+
+h1, h2, h3 {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h4{
+    letter-spacing: 1px;
+}
 .navlinks{
     border: 5px solid purple;
     display: flex;
     justify-content: space-evenly;
+}
+
+.background{
+    z-index: 1;
 }
 .main-render{
     border: 5px solid maroon;
     cursor: crosshair;
     display: flex;
     justify-content: center;
+
 }
 
 .planet-card{
@@ -21,4 +43,14 @@
 .animations{
     position:absolute;
     z-index: 1;
+}
+
+
+
+
+
+.ref{
+    background-color: purple;
+    width: 100px;
+    height: 100px;
 }

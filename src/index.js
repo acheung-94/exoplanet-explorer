@@ -71,9 +71,10 @@ explore.addEventListener("click", function(){
         getStarSystemData() //hit the api and refresh the queue in the background. 
         
         let view = new View(starSystem, canvas)
-        key = setInterval(view.animate(), 20)
+        key = setInterval(() => view.animate(), 20)
     }else {
         let starSystem = starSystemQueue.shift()
+        //TODO: consider implementing a filter on the data object's keys... 200 is too many and makes it difficult to programatically handle its values. 
         StarChart.populateStarChart(starSystem)
         console.log(`hello?`)
         let view = new View(starSystem, canvas)
