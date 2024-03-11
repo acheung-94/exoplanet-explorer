@@ -103,10 +103,12 @@ let currentView;
 
 
 let animating = false
-
+const renderContainer = document.querySelector('.canvas-container')
 let canvas = document.querySelector('.background') // i think I want two canvases... one for background and one for animation... that sounds like a good idea.
-canvas.height = 600
-canvas.width = 600
+let container = canvas.parentNode.getBoundingClientRect();
+console.log(container)
+canvas.height = container.height
+canvas.width = container.width
 let ctx = canvas.getContext('2d')
 ctx.fillStyle = "black"
 ctx.fillRect(0,0, canvas.width, canvas.height)
