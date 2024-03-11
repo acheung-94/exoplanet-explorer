@@ -8,7 +8,8 @@ import Star from "./scripts/stellarObj";
 
 // SECTION : RESOURCE QUERIES
 function getStarSystemData(){
-    return fetch(`https://cors-proxy-xphi.onrender.com/?url=` + generateURL())
+    let proxiedURL = `https://cors-proxy-xphi.onrender.com/?url=`+ generateURL()
+    return fetch(proxiedURL)
         .then((res) => {
             if (res.ok){
             return res.json();
@@ -53,6 +54,7 @@ function generateURL(){
     //i think there might be a size limit to the request URL ... this is pretty hairy
     query = query.split(" ").join("+")
     let result = encodeURIComponent(`${url}${query}&format=json`)
+
     return result
 }
 
@@ -165,6 +167,23 @@ canvas.addEventListener("click", (event) => {
     }
 })
 
+//close planet card
+const closePCard = document.querySelector(".close-pcard")
+closePCard.addEventListener("click", (event)=>{
+    console.log(closePCard)
+    PlanetChart.closePlanetChart()
+})
+//close star card
+const closeSCard = document.querySelector(".close-scard")
+closeSCard.addEventListener("click", (event) => {
+    StarChart.closeStarChart()
+})
+// SECTION : PAGE INITIALIZATION FUNCTIONS
+getStarSystemData()
+
+
+
+// SECTION : IGNORE
 // canvas.addEventListener("mousemove", function pauseAnimation(event) {
 //     //let boundary = currentView.hostStar.radius
 //     //let planetRadii = getPlanetRadii(currentView.hostStar.planets)
@@ -190,7 +209,3 @@ canvas.addEventListener("click", (event) => {
 //     // sigh. maybe i have to just create a click to pause...
 // })
 
-
-
-// SECTION : PAGE INITIALIZATION FUNCTIONS
-getStarSystemData()

@@ -34,6 +34,7 @@ In addition, this project will include:
 - NASA’s Exoplanet Archive TAP service (I don’t really understand how the TAP service works as an API, but acts on the archive using SQL-like syntax, though it is limited and very verbose, but hypothetically can still be used to fetch data)
 - webpack
 - npm
+- ![background photo](https://unsplash.com/photos/photography-of-starry-sky-uhjiu8FjnsQ?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash)
 
 # Implementation Timeline:
 ### Thursday & Friday:

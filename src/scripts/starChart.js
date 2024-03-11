@@ -41,11 +41,11 @@ export function populateStarChart(starSystem) {
 export function renderStarChart() {
     let starCard = document.querySelector(".star-card")
     //populateStarChart(star);
-    starCard.hidden = false;
+    starCard.style.visibility = "visible";
 }
 
 export function closeStarChart() {
     let starCard = document.querySelector(".star-card") // a way to dry this all up? :/ may not be able to since i'm exporting these functions
-    starCard.hidden = true
+    starCard.style.visibility = "hidden";
 }
 

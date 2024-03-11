@@ -97,7 +97,7 @@ class Star {
         ctx.fillStyle = this.color
         ctx.fill()
         ctx.shadowColor = this.color
-        ctx.shadowBlur = (Math.random() * 5)
+        ctx.shadowBlur = 5
     }
 
 }

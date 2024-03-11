@@ -36,11 +36,12 @@ export function renderPlanetChart(planet, starSystem) {
         if (planet.name === entry.pl_name) currentPlanetData = entry;
     })
     populatePlanetChart(currentPlanetData);
-    planetCard.hidden = false;
+    planetCard.style.visibility = "visible";
 }
 
 export function closePlanetChart() {
     let planetCard = document.querySelector(".planet-card") // a way to dry this all up? :/ may not be able to since i'm exporting these functions
-    planetCard.hidden = true
+    planetCard.style.visibility = "hidden";
+
 }
 
