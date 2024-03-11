@@ -5,6 +5,7 @@ import View from "./scripts/view";
 import * as StarChart from "./scripts/starChart"
 import * as PlanetChart from "./scripts/planetChart"
 import Star from "./scripts/stellarObj";
+import AudioMotionAnalyzer from 'audiomotion-analyzer';
 
 // SECTION : RESOURCE QUERIES
 function getStarSystemData(){
@@ -36,6 +37,8 @@ function getMusic () {
     // last item, connect to soundcloud API
 }
 
+
+
 // SECTION : HELPERS
 function randomRARange() {
     let ra1 = Math.floor(Math.random() * 360)
@@ -48,10 +51,10 @@ function generateURL(){
     const url = `https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=`
     let dec = `between 0 and 180`
     let raRange = `${randomRARange()}`
-    let plColumns = `pl_name,pl_rade,pl_masse,pl_dens,pl_eqt,pl_orbper,pl_orbsmax,disc_year,disc_facility,discoverymethod,`
+    let plColumns = `pl_name,pl_rade,pl_bmasse,pl_dens,pl_eqt,pl_orbper,pl_orbsmax,disc_year,disc_facility,discoverymethod,`
     let stColumns = `hostname,st_spectype,st_teff,st_mass,st_rad,st_met,st_metratio,st_lum,rastr,decstr,sy_dist`
-    let query = `select * from pscomppars where sy_snum = 1 and sy_pnum >= 2 and ${raRange} and dec ${dec}`
-    //i think there might be a size limit to the request URL ... this is pretty hairy
+    let query = `select ${plColumns}${stColumns} from pscomppars where sy_snum = 1 and sy_pnum >= 2 and ${raRange} and dec ${dec}`
+    //i think there might be another character encoding issue
     query = query.split(" ").join("+")
     let result = encodeURIComponent(`${url}${query}&format=json`)
 
@@ -102,19 +105,29 @@ function startAnimation(){
 let starSystemQueue = []
 let refreshKey;
 let currentView;
-
-
 let animating = false
+
 const renderContainer = document.querySelector('.canvas-container')
 let canvas = document.querySelector('.background') // i think I want two canvases... one for background and one for animation... that sounds like a good idea.
 let container = canvas.parentNode.getBoundingClientRect();
-console.log(container)
 canvas.height = container.height
 canvas.width = container.width
 let ctx = canvas.getContext('2d')
 ctx.fillStyle = "black"
 ctx.fillRect(0,0, canvas.width, canvas.height)
-
+const audioEl = document.querySelector(".audio")
+const audioMotion = new AudioMotionAnalyzer(
+    document.querySelector(".audio-container"),
+    {
+      source: audioEl,
+      height: 100,
+      width: 250,
+      // you can set other options below - check the docs!
+      mode: 3,
+      barSpace: .6,
+      ledBars: true,
+    }
+  );
 
 // SECTION : EVENT LISTENERS
 const explore = document.querySelector(".explore")
@@ -144,6 +157,19 @@ pause.addEventListener("click", ()=>{
         animating = true
         pause.innerText = "Pause animation"
     }
+})
+canvas.addEventListener("mousemove", (event)=>{
+
+    let mousePos = getMousePos(canvas, event)
+    currentView.hostStar.planets.forEach ( (planet) => {
+        let distance = getDistance(mousePos, planet.pos)
+        if (distance <= (planet.radius + 10)) {
+            console.log(planet)
+            planet.highlighted = true
+        }else{
+            planet.highlighted = false
+        }
+    })
 })
 
 //click on planet
@@ -178,6 +204,26 @@ const closeSCard = document.querySelector(".close-scard")
 closeSCard.addEventListener("click", (event) => {
     StarChart.closeStarChart()
 })
+
+const audioPlay = document.querySelector(".play-audio")
+audioPlay.addEventListener("click", ()=> {
+    audioEl.play()
+})
+const audioPause = document.querySelector(".pause-audio")
+audioPause.addEventListener("click", ()=> {
+    audioEl.pause()
+})
+const vUp = document.querySelector(".vol-up")
+vUp.addEventListener("click", ()=>{
+    if(audioEl.volume <= 1.0) {
+        audioEl.volume += 0.1;
+    }
+})
+const vDown = document.querySelector(".vol-down")
+vDown.addEventListener("click", ()=>{
+    audioEl.volume -= 0.1;
+})
+
 // SECTION : PAGE INITIALIZATION FUNCTIONS
 getStarSystemData()
 

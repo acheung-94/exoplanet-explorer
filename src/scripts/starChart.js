@@ -20,16 +20,16 @@ export function populateStarChart(starSystem) {
     temp.innerText = `${star.st_teff} K`
 
     let mass = document.querySelector(".smass")
-    mass.innerText = `${star.st_mass} units Solar mass`
+    mass.innerText = `${star.st_mass} x solar mass`
 
     let radius = document.querySelector(".sradius")
-    radius.innerText = `${star.st_rad}`
+    radius.innerText = `${star.st_rad} x solar radius`
 
     let metallicity = document.querySelector(".metallicity")
     metallicity.innerText = `${star.st_met} ${star.st_metratio}`
 
     let luminosity = document.querySelector(".luminosity")
-    luminosity.innerText = `${star.st_lum} units solar luminosity
+    luminosity.innerText = `${star.st_lum} x solar luminosity
 `
     let pos = document.querySelector(".coordinates")
     pos.innerText = `RA: ${star.rastr}, DEC: ${star.decstr}`

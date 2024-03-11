@@ -10,9 +10,15 @@ class Planet {
         this.vel = this.angularVelocity(planetData["pl_orbper"]) // radians per frame
         this.pos = { "x" : hostStar.pos.x + (this.distance * Math.cos(this.angle)),
                      "y" : hostStar.pos.y + (this.distance * Math.sin(this.angle))}
-
+        this.highlighted = false;
         //console.log(this.name, this.vel) // for adjustment
     }
+
+    // scaleColor(temp){
+    //     if (temp > 180 && temp < 280){
+    //         return 
+    //     }
+    // }
 
     scaleRadius(radius, hostStar) {
 
@@ -28,20 +34,21 @@ class Planet {
     scaleDistance(semiMajorAxis, hostStar) {// if smax is null... give it a default value pls.
         semiMajorAxis ??= 10
 
-        if (semiMajorAxis <= 5){
-            //console.log(semiMajorAxis)
-            let adjusted = hostStar.radius + 25 + ((semiMajorAxis/10) * 50)
-            //console.log(adjusted)
-            return adjusted
-        }else if (semiMajorAxis > 5 && semiMajorAxis < 100) {
-            return hostStar.radius + 50 + ((semiMajorAxis / 100) * 50)
+        return hostStar.radius + (semiMajorAxis * 20)
+        // if (semiMajorAxis <= 5){
+        //     //console.log(semiMajorAxis)
+        //     let adjusted = hostStar.radius + 25 + ((semiMajorAxis/10) * 50)
+        //     //console.log(adjusted)
+        //     return adjusted
+        // }else if (semiMajorAxis > 5 && semiMajorAxis < 100) {
+        //     return hostStar.radius + 50 + ((semiMajorAxis / 100) * 50)
 
-        }else if (semiMajorAxis >= 100 && semiMajorAxis <= 500) {
-            return hostStar.radius + 75 + (semiMajorAxis / 10)
+        // }else if (semiMajorAxis >= 100 && semiMajorAxis <= 500) {
+        //     return hostStar.radius + 75 + (semiMajorAxis / 10)
 
-        }else if (semiMajorAxis > 500){ // big distance = 150~200px rad
-            return (((semiMajorAxis / 1000 )+ 0.3) * 200) // ok this is just some made up stuff here but uh... tis the best i can do right now. 
-        }
+        // }else if (semiMajorAxis > 500){ // big distance = 150~200px rad
+        //     return (((semiMajorAxis / 1000 )+ 0.3) * 200) // ok this is just some made up stuff here but uh... tis the best i can do right now. 
+        // }
     }
 
 
@@ -56,11 +63,27 @@ class Planet {
     }
 
     draw(ctx){
-         
         ctx.beginPath()
         ctx.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2)
         ctx.fillStyle = this.color
-        ctx.fill()
+        ctx.fill() 
+        if (this.highlighted){
+            let radConversion = Math.PI / 180
+            let degStart = 10
+            let degEnd = 80
+            for(let i = 0; i < 4; i++){
+                ctx.beginPath()
+                ctx.arc(this.pos.x, this.pos.y, this.radius + 10, degStart*radConversion, degEnd*radConversion)
+                ctx.lineWidth = 2
+                ctx.strokeStyle = "white"
+                ctx.stroke()  
+
+                degStart += 90
+                degEnd += 90
+            }
+
+        } 
+
     }
 
     move(){    

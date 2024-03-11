@@ -3,6 +3,11 @@
     src: url(/assets/fonts/Teko-VariableFont_wght.ttf)
 }
 
+@font-face{
+    font-family: Venus;
+    src: url(/assets/fonts/venus\ rising\ rg.otf);
+}
+
 body{
     font-family: Teko;
     color: white;
@@ -26,13 +31,27 @@ h4{
     letter-spacing: 3px;
     font-size: auto;
 }
+.links{
+    display:flex;
+    justify-content: space-between;
+    font-size:48px;
+    gap: 50px;
+}
 
+p{
+    font-family: Venus;
+    font-size:8px;
+    letter-spacing: 3px;
+    font-stretch: condensed;
+}
 button{
     background:none;
     color:aqua;
     font-family: Teko;
+    font-size: 40px;
     letter-spacing: 3px;
     border: 1px solid aqua;
+    transition: all 0.3s ease;
 }
 button:hover{
     box-shadow: 0px 0px 10px;
@@ -100,14 +119,39 @@ button:hover{
     //border: 5px solid blue;
     display:flex;
 
-    justify-content: center;
-    align-content: center;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
+.close-scard, .close-pcard{
+    width: 50px;
+    height: 50px;
+}
+.audio-container{
+    display:flex;
+    gap: 10px;
+    height:auto;
+}
 
-//
-.ref{
-    background-color: purple;
-    width: 100px;
-    height: 100px;
+.audio-controls{
+    display:grid;
+
+    grid-template-areas: 
+        "play vup"
+        "pause vdown";
+    gap: 5px;
+}
+
+.pause-audio{
+    grid-area: pause;
+}
+
+.audio-label{
+    border: 1px solid red;
+    display:block;
+    width: fit-content;
+    height: fit-content;
+    font-weight: 100;
+    line-height: 20px;
+    padding: 20px;
 }
