@@ -4,7 +4,7 @@ import View from "./scripts/view";
 //import * as PlanetChart from "./scripts/planetChart";
 import * as StarChart from "./scripts/starChart"
 import * as PlanetChart from "./scripts/planetChart"
-import Star from "./scripts/stellarObj";
+
 import AudioMotionAnalyzer from 'audiomotion-analyzer';
 
 // SECTION : RESOURCE QUERIES
@@ -124,6 +124,8 @@ const audioMotion = new AudioMotionAnalyzer(
       width: 250,
       // you can set other options below - check the docs!
       mode: 3,
+      gradient: 'rainbow',
+      showScaleX: false,
       barSpace: .6,
       ledBars: true,
     }

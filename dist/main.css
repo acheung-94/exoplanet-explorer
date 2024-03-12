@@ -147,3 +147,13 @@ button:hover {
   line-height: 20px;
   padding: 20px;
 }
+
+.scales {
+  background: linear-gradient(to right, red, yellow, green, yellow, red);
+  width: 100px;
+  height: 20px;
+}
+
+#radmarker {
+  position: relative;
+}

@@ -1,3 +1,5 @@
+
+import * as d3 from 'd3'
 export function populatePlanetChart(planet) {
     //planet is a data object
     //console.log(currentPlanetData)
@@ -6,6 +8,9 @@ export function populatePlanetChart(planet) {
 
     let radius = document.querySelector(".pradius")
     radius.innerText = `${planet.pl_rade * 6370} km`
+    let pixels = renderRadScale(radius, planet.pl_rade)
+    let marker = document.querySelector("#radmarker")
+    marker.style.left = `${pixels}px;`
 
     let mass = document.querySelector(".pmass")
     mass.innerText = `${planet.pl_bmasse} x Earth mass`
@@ -45,3 +50,15 @@ export function closePlanetChart() {
 
 }
 
+function renderRadScale(dom, radius) {
+    let item;
+    if( radius < 1.5 && radius > 0.5){
+        item = 0
+    }else if (radius > 1.5) {
+        item = (radius / 33 )
+    }else {
+        item = radius * -1
+    }
+    let pixels = item * 50
+    return pixels
+}

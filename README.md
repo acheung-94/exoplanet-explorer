@@ -18,6 +18,7 @@ In addition, this project will include:
 
 - A modal with a map of HUD elements
 - This readme.
+- optional classical music streaming (from Earth!) with audio visualization
 
 
 # Wireframe:
@@ -30,12 +31,11 @@ In addition, this project will include:
 
 # Technologies, Libraries, and APIs:
 - Canvas
-- Still trying to research what libraries I can use to portray the movement of the planets
-- NASA’s Exoplanet Archive TAP service (I don’t really understand how the TAP service works as an API, but acts on the archive using SQL-like syntax, though it is limited and very verbose, but hypothetically can still be used to fetch data)
+- NASA’s Exoplanet Archive TAP service
 - webpack
 - npm
-- ![background photo](https://unsplash.com/photos/photography-of-starry-sky-uhjiu8FjnsQ?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash)
-
+- AudioMotion Analyzer ![GitHub](https://github.com/hvianna/audioMotion-analyzer)
+- d3 
 # Implementation Timeline:
 ### Thursday & Friday:
 - Set up HTML skeleton and implement classes for Star and Planet - identify specific data needed to implement movement, and data for display.
