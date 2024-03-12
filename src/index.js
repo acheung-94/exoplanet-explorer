@@ -28,6 +28,7 @@ function getStarSystemData(){
         }).then( (sortedData)=>{
             if (sortedData) {
                 starSystemQueue = starSystemQueue.concat(sortedData)
+                updateStatus()
                 console.log(starSystemQueue)
             }
         }).catch((err)=> console.error(err))
@@ -109,6 +110,23 @@ function getDistance(mouse, object){
 function startAnimation(){
     refreshKey = setInterval(()=> currentView.animate(), 20)
 }
+
+function updateStatus () {
+    let systemStatus = document.querySelector(".system")
+    let engage = document.querySelector(".explore")
+    if (starSystemQueue.length) {
+        engage.disabled = false
+        engage.style.backgroundColor = 'green'
+        systemStatus.innerText = `ONLINE`
+        systemStatus.style.color = `green`
+    }else{
+        engage.disabled = true
+        engage.style.backgroundColor = `gray`
+        systemStatus.innerText = `LONG RANGE SCAN IN PROGRESS...`
+        systemStatus.style.color = `orange`
+    }
+}
+
 // SECTION : VARIABLES 
 let starSystemQueue = []
 let refreshKey;
@@ -127,18 +145,19 @@ ctx.fillRect(0,0, canvas.width, canvas.height)
 // SECTION : EVENT LISTENERS
 const explore = document.querySelector(".explore")
 explore.addEventListener("click", function(){
-
+    let pChart = document.querySelector(".planet-card")
     clearInterval(refreshKey)
-    PlanetChart.closePlanetChart()
+    pChart.style.visibility = "hidden"
     let starSystem = starSystemQueue.shift()
+    updateStatus()
     StarChart.populateStarChart(starSystem)
-
     currentView = new View(starSystem, canvas)
     refreshKey = setInterval(() => currentView.animate(), 20)
     animating = true
     pause.innerText = "RESUME"
-    if (starSystemQueue.length < 2){
+    if (starSystemQueue.length < 1){
         getStarSystemData() //hit the api and refresh the queue in the background. 
+
     }
     
 })
@@ -148,12 +167,12 @@ pause.addEventListener("click", ()=>{
     if (animating) {
         clearInterval(refreshKey)
         animating = false
-        pause.innerText = "Resume animation"
+        pause.innerText = "RESUME"
     }else{
         
         startAnimation()
         animating = true
-        pause.innerText = "Pause animation"
+        pause.innerText = "PAUSE"
     }
 })
 
@@ -180,7 +199,6 @@ canvas.addEventListener("click", (event)=>{
     currentView.hostStar.planets.forEach((planet) => {
         let distance = getDistance(mousePos, planet.pos)
         if (distance <= (planet.radius + 5)) { // added a 5 px radius buffer for the baby planets
-            console.log(currentView.starSystem)
             PlanetChart.renderPlanetChart(planet, currentView.starSystem)
         }
     })
@@ -195,16 +213,16 @@ canvas.addEventListener("click", (event) => {
     }
 })
 
-//close planet card
-const closePCard = document.querySelector(".close-pcard")
-closePCard.addEventListener("click", (event)=>{
-    console.log(closePCard)
-    PlanetChart.closePlanetChart()
+//planet card BUTTON
+const pCardButton = document.querySelector(".close-pcard")
+
+pCardButton.addEventListener("click", (event)=>{
+    PlanetChart.togglePlanetChart()
 })
 //close star card
-const closeSCard = document.querySelector(".close-scard")
-closeSCard.addEventListener("click", (event) => {
-    StarChart.closeStarChart()
+const sCardButton = document.querySelector(".close-scard")
+sCardButton.addEventListener("click", (event) => {
+    StarChart.toggleStarChart()
 })
 
 // const audioPlay = document.querySelector(".play-audio")

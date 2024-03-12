@@ -10,83 +10,112 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Exoplanet Explorer</title>
 </head>
-<body>
 
+
+<body>    
+<div id="modal">
     
+        <h2>Introduction:</h2>
+        <p> This is a briefing from the Interstellar Task Force on Earth.
+            The purpose of this simulation is to ensure readiness for your first deep space mission.
+             </p>
+            <div class="modal-contents">
+            <h2>Instructions</h2>
+            <p>The program is designed to assist you in acquiring data and displaying them holographically on your HUD.
+                It will also generate a thermally-colorized simulation of the star system.
+                
+                
+                Located on your navigation console are the following instruments:
+                <h3>Holographic readout for stellar data.</h3>
+                <h3>Status Panel </h3>
+                    <ul>
+                        <li>On the left is the status of your long-range scans.</li>
+                        <li>Additionally, this is where you may access this entry, should you ever need it again. </li>
+                    </ul>
+                <h3>Helm Control </h3> 
+                    <ul>
+                        <li>Press 'Engage' to initiate warp travel to the next star system (the computer will program in the coordinates without your input).</li>
+                        <li>Press 'Pause' to pause simulation. </li>
+                    </ul>
+                <h3>Holographic readout for planetary data.</h3>
 
+                </p> 
+    </div>
+</div>
     <div class="main-render"> <!-- 4 children -->
         <!-- <canvas class="animations"></canvas> -->
-        <nav class="navlinks">
-            <div class="modal">modal button</div> 
-            <div><h1>Exoplanet Explorer</h1></div>
-            <div class="links">
-                
-                    <a href="https://github.com/acheung-94"><i class="fa fa-github-alt"></i></a>
-                    <a href="https://www.linkedin.com/in/andrea-cheung-b9b5072b2/"><i class="fa fa-linkedin"></i></a>
-                
-            </div>
-        </nav>
+        <div class="header"><h1>Exoplanet Explorer</h1></div>
+
         <div class="canvas-container">
             <canvas class="background"></canvas>
         </div>
         
         <div class="star-card">
-            <h3>Spectral Class: </h3>
+            <h3>Spectral Class </h3>
                 <h4 class="spectype"></h4>
-            <h3>Temperature: </h3>
+            <h3>Temperature </h3>
                 <h4 class="stemp"></h4>
-            <h3>Mass:</h3>
+            <h3>Mass</h3>
                 <h4 class="smass"></h4>
-            <h3>Radius (in units of solar radius): </h3>
+            <h3>Radius (in units of solar radius) </h3>
                 <h4 class="sradius"></h4>
-            <h3>Metallicity:</h3>
+            <h3>Metallicity</h3>
                 <h4 class="metallicity"></h4>
                 <!-- maybe something indicating green/red based on habitability req? high metallicity good. -->
             <h3>Luminosity</h3>
                 <h4 class="luminosity"></h4>
             <h3>Coordinates</h3>
                 <h4 class="coordinates"></h4>
-            <h3>Distance from Earth: </h3>
+            <h3>Distance from Earth</h3>
                 <h4 class="distance"></h4>
             
         </div>
 
         <div class="sys-name">
             <h2 class="host-star"></h2>
-            <div class="ref" hidden>hello</div>
         </div>
 
-        <div class="planet-card"> 
-            <h3 class="pname"></h3>
-            <h3>Radius:</h3>
-                <h4 class="pradius"></h4>
-                <div class="scales" id="rad-scale"><span id="radmarker">|</span></div>
-            <h3>Mass:</h3>
-                <h4 class="pmass"></h4>
-                <div class="scales" id="mass-scale"><span id="massmarker">|</span></div>
-            <h3>Density:</h3>
-                <h4 class="pdensity"></h4>
-            <h3>Temperature: </h3>
-                <h4 class="ptemp"></h4>
-            <h3>Orbital Period:</h3>
-                <h4 class="porb-per"></h4>
-            <h3>Discovery Year:</h3>
-                <h4 class="pdisc-year"></h4>
-            <h3>Discovery Facility: </h3>
-                <h4 class="pdisc-facility"></h4>
-            <h3>Detection Method: </h3>
-                <h4 class="pdisc-method"></h4>
-           <button class="close-pcard"><i class="fa fa-angle-double-down"></i></button>
+        <div class="planet-card">
+            <div class="pcard-wrapper">
+                <h3 id="pname"> </h3>
+                <div class="pcard-wrapper-2">
+                    <h3>Radius</h3>
+                        <h4 class="pradius"></h4>
+                        <div class="scales" id="rad-scale"><span id="radmarker">|</span></div>
+                    <h3>Mass</h3>
+                        <h4 class="pmass"></h4>
+                        <div class="scales" id="mass-scale"><span id="massmarker">|</span></div>
+                    <h3>Density</h3>
+                        <h4 class="pdensity"></h4>
+                    <h3>Temperature </h3>
+                        <h4 class="ptemp"></h4>
+                    <h3>Orbital Period</h3>
+                        <h4 class="porb-per"></h4>
+                    <h3>Discovery Year</h3>
+                        <h4 class="pdisc-year"></h4>
+                    <h3>Discovery Facility </h3>
+                        <h4 class="pdisc-facility"></h4>
+                    <h3>Detection Method </h3>
+                        <h4 class="pdisc-method"></h4>
+            </div>
+          </div> 
         </div>
         <footer class="controls">
             <div class="star-info">
-                <span class="slot1"></span>
-                <button class="close-scard"><i class="fa fa-angle-double-up"></i></button>
+                
+                <button class="close-scard"><i id="s-toggle" class="fa fa-angle-double-up"></i></button>
             </div>
             <div class="status">
-                <ul>Navigation Status:
+                <ul class="nav-status">Navigation Status:
                     <li class="system">Scanning for star systems...</li>
                 </ul>
+
+                <ul class="links">
+                    <li id="modal-button"> <a href="#modal-content"><i class="fa fa-bars"></i></a></li>
+                    <li id="github"><a href="https://github.com/acheung-94"><i class="fa fa-github-alt"></i></a></li>
+                    <li id="linkedin"><a href="https://www.linkedin.com/in/andrea-cheung-b9b5072b2/"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+
 
             </div>
             <div class="buttons">
@@ -99,14 +128,9 @@
                 </div>
             </div>
             <div class="planet-info">
-                <span class="slot2"></span>
-                <button class="close-pcard"><i class="fa fa-angle-double-up"></i></button>
+                
+            <button class="close-pcard"><i id="p-toggle" class="fa fa-angle-double-up"></i></button>
             </div>
         </footer>
-
-    
-    
-
-
 </body>
 </html>

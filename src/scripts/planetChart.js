@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 export function populatePlanetChart(planet) {
     //planet is a data object
     //console.log(currentPlanetData)
-    let name = document.querySelector(".pname")
+    let name = document.querySelector("#pname")
     name.innerText = planet.pl_name
 
     let radius = document.querySelector(".pradius")
@@ -45,10 +45,17 @@ export function renderPlanetChart(planet, starSystem) {
     planetCard.style.visibility = "visible";
 }
 
-export function closePlanetChart() {
-    let planetCard = document.querySelector(".planet-card") // a way to dry this all up? :/ may not be able to since i'm exporting these functions
-    planetCard.style.visibility = "hidden";
-
+export function togglePlanetChart() {
+    let planetCard = document.querySelector(".planet-card")
+    let planetCardButton = document.querySelector("#p-toggle")
+    planetCard.style.visibility = planetCard.style.visibility || "hidden"
+    if (planetCard.style.visibility === "hidden" ) {
+        planetCard.style.visibility = "visible"
+        planetCardButton.className = "fa fa-angle-double-down"
+    }else {
+        planetCard.style.visibility = "hidden"
+        planetCardButton.className = "fa fa-angle-double-up"
+    }
 }
 
 function renderRadScale(dom, radius) {

@@ -44,8 +44,17 @@ export function renderStarChart() {
     starCard.style.visibility = "visible";
 }
 
-export function closeStarChart() {
-    let starCard = document.querySelector(".star-card") // a way to dry this all up? :/ may not be able to since i'm exporting these functions
-    starCard.style.visibility = "hidden";
+export function toggleStarChart() {
+    let starCard = document.querySelector(".star-card")
+    let starCardButton = document.querySelector("#s-toggle")
+    
+    starCard.style.visibility = starCard.style.visibility || "hidden"
+    if (starCard.style.visibility === "hidden") {
+        starCard.style.visibility = "visible";
+        starCardButton.className = "fa fa-angle-double-down"
+    }else{
+        starCard.style.visibility = "hidden"
+        starCardButton.className = "fa fa-angle-double-up"
+    }
 }
 
