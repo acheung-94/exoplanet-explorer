@@ -66,13 +66,14 @@ class Star {
         }
 
         return `rgb(${r}, ${g}, ${b})`
+
     }
 
     scaleRadius(radius){
         let km = radius * 695700
         let scaled = km * 0.00005
         
-        if (scaled >= 200 ){
+        if (scaled >= 100 ){
             return scaled * (Math.random() * (1.5 - 1.0) + 1.0)
         }else if ( scaled < 50) {
             scaled = scaled * (Math.random() * (2.0 - 1.5) + 1.5) 
@@ -94,10 +95,16 @@ class Star {
     draw(ctx){
         ctx.beginPath()
         ctx.arc(this.pos.x,this.pos.y, this.radius, 0, Math.PI * 2)
-        ctx.fillStyle = this.color
+
+        let o = this.color.slice(0, 3) + `a` + this.color.slice(3, this.color.length - 1) + `, 0.5)`
+        let g = ctx.createRadialGradient(
+                this.pos.x, this.pos.y, (this.radius/10),
+                this.pos.x, this.pos.y, this.radius)
+        g.addColorStop(0, this.color)
+        g.addColorStop(1, o)
+
+        ctx.fillStyle = g
         ctx.fill()
-        ctx.shadowColor = this.color
-        ctx.shadowBlur = 5
     }
 
 }

@@ -136,8 +136,10 @@ const explore = document.querySelector(".explore")
 explore.addEventListener("click", function(){
 
     clearInterval(refreshKey)
+    PlanetChart.closePlanetChart()
     let starSystem = starSystemQueue.shift()
     StarChart.populateStarChart(starSystem)
+
     currentView = new View(starSystem, canvas)
     refreshKey = setInterval(() => currentView.animate(), 20)
     animating = true
@@ -155,11 +157,14 @@ pause.addEventListener("click", ()=>{
         animating = false
         pause.innerText = "Resume animation"
     }else{
+        
         startAnimation()
         animating = true
         pause.innerText = "Pause animation"
     }
 })
+
+//add highlighting effect to planets
 canvas.addEventListener("mousemove", (event)=>{
 
     let mousePos = getMousePos(canvas, event)
@@ -168,6 +173,7 @@ canvas.addEventListener("mousemove", (event)=>{
         if (distance <= (planet.radius + 10)) {
             console.log(planet)
             planet.highlighted = true
+
         }else{
             planet.highlighted = false
         }
