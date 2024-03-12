@@ -1,10 +1,5 @@
-//import stellar card, planetary card, and planet/star classes.
-//responsible for taking in stellar system data, creating star and planets, and animating. 
-//consider not using an actual View, but export this thing as a collection of functions. 
-//starting to think it doesn't really make sense to have it be a class with a instance methods.. 
-//the background will likely not change from instance to instance.
 
-import Star from "./stellarObj"
+import Star from "./star"
 
 class View {
 

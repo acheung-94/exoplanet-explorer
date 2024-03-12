@@ -1,5 +1,5 @@
 
-import Planet from "./planetaryObj"
+import Planet from "./planet"
 
 class Star {
     constructor (canvas, starSystem){

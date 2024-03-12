@@ -1,4 +1,4 @@
-import Star from "./stellarObj"
+import Star from "./star"
 
 export function populateStarChart(starSystem) {
     let star = starSystem[0]

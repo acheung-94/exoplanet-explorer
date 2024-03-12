@@ -7,10 +7,11 @@ export function populatePlanetChart(planet) {
     name.innerText = planet.pl_name
 
     let radius = document.querySelector(".pradius")
-    radius.innerText = `${planet.pl_rade * 6370} km`
+    radius.innerText = `${Math.floor(planet.pl_rade * 6370)} km`
     let pixels = renderRadScale(radius, planet.pl_rade)
     let marker = document.querySelector("#radmarker")
-    marker.style.left = `${pixels}px;`
+    console.log(pixels)
+    marker.style.left = pixels
 
     let mass = document.querySelector(".pmass")
     mass.innerText = `${planet.pl_bmasse} x Earth mass`
@@ -53,7 +54,7 @@ export function closePlanetChart() {
 function renderRadScale(dom, radius) {
     let item;
     if( radius < 1.5 && radius > 0.5){
-        item = 0
+        item = 1
     }else if (radius > 1.5) {
         item = (radius / 33 )
     }else {

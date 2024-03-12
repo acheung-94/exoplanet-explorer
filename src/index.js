@@ -34,7 +34,15 @@ function getStarSystemData(){
 }
 
 function getMusic () {
-    // last item, connect to soundcloud API
+    // last item, connect to soundcloud API'
+    let song = fetch( `https://api.soundcloud.com/tracks/1772379096`)
+        .then((res) => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then((data) => {
+            console.log(data)
+        })
 }
 
 
@@ -115,21 +123,6 @@ canvas.width = container.width
 let ctx = canvas.getContext('2d')
 ctx.fillStyle = "black"
 ctx.fillRect(0,0, canvas.width, canvas.height)
-const audioEl = document.querySelector(".audio")
-const audioMotion = new AudioMotionAnalyzer(
-    document.querySelector(".audio-container"),
-    {
-      source: audioEl,
-      height: 100,
-      width: 250,
-      // you can set other options below - check the docs!
-      mode: 3,
-      gradient: 'rainbow',
-      showScaleX: false,
-      barSpace: .6,
-      ledBars: true,
-    }
-  );
 
 // SECTION : EVENT LISTENERS
 const explore = document.querySelector(".explore")
@@ -143,7 +136,7 @@ explore.addEventListener("click", function(){
     currentView = new View(starSystem, canvas)
     refreshKey = setInterval(() => currentView.animate(), 20)
     animating = true
-    pause.innerText = "Pause Animation"
+    pause.innerText = "RESUME"
     if (starSystemQueue.length < 2){
         getStarSystemData() //hit the api and refresh the queue in the background. 
     }
@@ -166,18 +159,19 @@ pause.addEventListener("click", ()=>{
 
 //add highlighting effect to planets
 canvas.addEventListener("mousemove", (event)=>{
-
-    let mousePos = getMousePos(canvas, event)
-    currentView.hostStar.planets.forEach ( (planet) => {
+    if (currentView) {
+        let mousePos = getMousePos(canvas, event)
+        currentView.hostStar.planets.forEach ( (planet) => {
         let distance = getDistance(mousePos, planet.pos)
         if (distance <= (planet.radius + 10)) {
-            console.log(planet)
             planet.highlighted = true
-
+          
         }else{
             planet.highlighted = false
         }
     })
+    }
+
 })
 
 //click on planet
@@ -213,28 +207,31 @@ closeSCard.addEventListener("click", (event) => {
     StarChart.closeStarChart()
 })
 
-const audioPlay = document.querySelector(".play-audio")
-audioPlay.addEventListener("click", ()=> {
-    audioEl.play()
-})
-const audioPause = document.querySelector(".pause-audio")
-audioPause.addEventListener("click", ()=> {
-    audioEl.pause()
-})
-const vUp = document.querySelector(".vol-up")
-vUp.addEventListener("click", ()=>{
-    if(audioEl.volume <= 1.0) {
-        audioEl.volume += 0.1;
-    }
-})
-const vDown = document.querySelector(".vol-down")
-vDown.addEventListener("click", ()=>{
-    audioEl.volume -= 0.1;
-})
+// const audioPlay = document.querySelector(".play-audio")
+// audioPlay.addEventListener("click", ()=> {
+//     audioEl.play()
+//     document.querySelector(".audio-label").style.visibility = "visible"
+// })
+// const audioPause = document.querySelector(".pause-audio")
+// audioPause.addEventListener("click", ()=> {
+//     audioEl.pause()
+//     document.querySelector(".audio-label").style.visibility = "hidden"
+
+// })
+// const vUp = document.querySelector(".vol-up")
+// vUp.addEventListener("click", ()=>{
+//     if(audioEl.volume <= 1.0) {
+//         audioEl.volume += 0.1;
+//     }
+// })
+// const vDown = document.querySelector(".vol-down")
+// vDown.addEventListener("click", ()=>{
+//     audioEl.volume -= 0.1;
+// })
 
 // SECTION : PAGE INITIALIZATION FUNCTIONS
 getStarSystemData()
-
+//getMusic()
 
 
 // SECTION : IGNORE
