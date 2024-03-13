@@ -43,6 +43,7 @@ export function renderPlanetChart(planet, starSystem) {
         if (planet.name === entry.pl_name) currentPlanetData = entry;
     })
     populatePlanetChart(currentPlanetData);
+    planet.highlighted = true
     planetCard.style.visibility = "visible";
     planetCardButton.className = "fa fa-angle-double-down"
 }

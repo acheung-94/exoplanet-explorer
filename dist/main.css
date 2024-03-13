@@ -3,11 +3,7 @@
   \*************************************************************************************************************************************/
 @font-face {
   font-family: Teko;
-  src: url(/assets/fonts/Teko-VariableFont_wght.ttf);
-}
-@font-face {
-  font-family: Venus;
-  src: url(/assets/fonts/venus\ rising\ rg.otf);
+  src: url(../assets/fonts/Teko-VariableFont_wght.ttf);
 }
 body {
   font-family: Teko;

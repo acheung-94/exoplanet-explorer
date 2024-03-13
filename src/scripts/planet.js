@@ -2,13 +2,14 @@ import * as d3 from 'd3'
 
 class Planet {
     constructor (planetData, hostStar){
+        this.data = planetData
         this.hostStar = hostStar
         this.name = planetData["pl_name"]
         this.radius = this.scaleRadius(planetData["pl_rade"], hostStar)
-        this.distance = this.scaleDistance(planetData["pl_orbsmax"], hostStar)
+        this.distance = this.newDistanceScaling(planetData["pl_orbsmax"], hostStar)
         this.angle = (Math.random() * (Math.PI*2)) // random starting angle in radians.
         this.color = this.scaleColor(planetData.pl_eqt) // planetData["pl_insol"]
-        this.vel = this.angularVelocity(planetData["pl_orbper"]) // radians per frame
+        this.vel = this.newAngularVelocity(planetData["pl_orbper"],planetData["pl_orbsmax"] ) // radians per frame
         this.pos = { "x" : hostStar.pos.x + (this.distance * Math.cos(this.angle)),
                      "y" : hostStar.pos.y + (this.distance * Math.sin(this.angle))}
         this.highlighted = false;
@@ -26,7 +27,7 @@ class Planet {
     scaleRadius(radius, hostStar) {
 
         if (radius > 10){
-            let conversion = hostStar.radius * 0.01
+            let conversion = hostStar.radius * 0.02
             let scaled = radius * conversion
             return scaled
         }else {
@@ -34,7 +35,7 @@ class Planet {
         }
     }
 
-    scaleDistance(semiMajorAxis, hostStar) {// if smax is null... give it a default value pls.
+    scaleDistance(semiMajorAxis, hostStar) {
         if (!semiMajorAxis || semiMajorAxis < 1.0){
             return hostStar.radius + (Math.random() * (40-10) + 10)
         }
@@ -68,9 +69,9 @@ class Planet {
         let g;
         let vecX = this.pos.x + ((this.radius * 0.5)*(Math.cos(this.angle - Math.PI)))
         let vecY = this.pos.y + ((this.radius * 0.5)*(Math.sin(this.angle - Math.PI)))
-        //let o = this.hostStar.color.slice(0, 3) + `a` + this.hostStar.color.slice(3, this.hostStar.color.length - 1) + `, 0.2)`
         
         if (this.color === "gray"){
+           
             g = ctx.createRadialGradient(
                 vecX, vecY, (this.radius/10), //starting circle in a vector pointing towards host star.
                 this.pos.x, this.pos.y, this.radius)
@@ -115,6 +116,49 @@ class Planet {
         this.pos.x = this.hostStar.pos.x + (this.distance * Math.cos(this.angle))
         this.pos.y = this.hostStar.pos.y + (this.distance * Math.sin(this.angle))
 
+    }
+
+    newAngularVelocity (orbper, smax){
+        if (!smax) {
+            smax = 10 // unknown semimajor axes
+        }
+
+        let orbPerRange = [1, 9000]
+        let velRange = [0.08, 0.0015]
+
+        let velScale = d3.scaleLog().domain(orbPerRange).range(velRange)
+        velScale.clamp(true)
+
+        return velScale(orbper)
+    }
+
+    newDistanceScaling(smax, hostStar) {
+        if (!smax) {
+            console.log(this.data)
+            smax = this.estimateSMAxis(hostStar, this.data)
+        }
+        let smaxRange = [0.02, 10]
+        let px = [hostStar.radius + 10, hostStar.radius + 220]
+
+        let distScale = d3.scaleLog().domain(smaxRange).range(px)
+        distScale.clamp(true)
+        return distScale(smax)
+    }
+
+    estimateSMAxis(hostStar, planet) {
+        hostStar.st_mass = hostStar.st_mass || 1.6
+        planet.pl_bmasse = planet.pl_bmasse || 1.0
+
+        let m1 = hostStar.st_mass * 1.989e30
+        let m2 = planet.pl_bmasse * 5.972e24
+        let g = 6.67430e-11
+        let t = planet.pl_orbper * 86400
+
+        let top = (t**2)*g*(m1+m2)
+        let bottom = (4* Math.PI **2)
+        let meters = Math.cbrt (top / bottom)
+
+        return meters / 1.496e11
     }
 
 }
