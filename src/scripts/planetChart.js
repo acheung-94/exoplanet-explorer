@@ -37,12 +37,14 @@ export function populatePlanetChart(planet) {
 
 export function renderPlanetChart(planet, starSystem) {
     let planetCard = document.querySelector(".planet-card")
+    let planetCardButton = document.querySelector("#p-toggle")
     let currentPlanetData;
     starSystem.forEach((entry) => {
         if (planet.name === entry.pl_name) currentPlanetData = entry;
     })
     populatePlanetChart(currentPlanetData);
     planetCard.style.visibility = "visible";
+    planetCardButton.className = "fa fa-angle-double-down"
 }
 
 export function togglePlanetChart() {

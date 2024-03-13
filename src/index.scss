@@ -12,6 +12,9 @@ body{
     font-family: Teko;
     color: white;
     font-weight: 100;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 h1, h2, h3 {
@@ -21,28 +24,18 @@ h1, h2, h3 {
 h1{
     font-size: 64px;
     letter-spacing: 15px;
+    padding-top: 20px;
+    text-shadow: 0 0 5px white;
 }
-// li{
-//     height: 10px;
-//     background-color: cadetblue;
-//     border-color: pink;
-// }
 
 h4{
     letter-spacing: 3px;
     font-size: auto;
 }
+p{
+    line-height: 18px;
 
-// button{
-//     background:none;
-//     color:aqua;
-//     font-family: Teko;
-//     font-size: 40px;
-//     letter-spacing: 3px;
-//     border: 1px solid aqua;
-//     transition: all 0.3s ease;
-// }
-
+}
 button{
     font-family: Teko;
     font-size: 24px;
@@ -62,7 +55,7 @@ button{
     width: 100vw;
     height: 100vh;
     grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: 10% 10% auto 10%;
+    grid-template-rows: 10% 7% auto 10%;
     grid-template-areas:
         "header header header"
         ". name ."
@@ -131,12 +124,34 @@ button{
     visibility: hidden;
     display:flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: flex-end;
     //border: 5px solid navy;
     grid-area: side1;
     background-color: rgba(145, 229, 255, 0.1);
     width: 85%;
     justify-self: center;
+}
+.scard-wrapper{
+    width: 95%;
+    height: 98%;
+    background: linear-gradient(to bottom, rgba(134, 81, 134, 0.5), rgba(216, 102, 121, 0.5));
+    border-top-right-radius: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.scard-wrapper-2{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 99%;
+    width: 80%;
+    background-color: #0F171A;
+    border-top-right-radius: 20px;
+}
+.star-card h4{
+    padding-left: 10%;
 }
 
 .star-card h3{
@@ -147,7 +162,6 @@ button{
     padding-top: 5px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-
 }
 .sys-name{
     grid-area: name;
@@ -200,8 +214,8 @@ button{
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
-.explore, .pause{
-    width: 75px;
+.explore, .pause, .sound{
+    width: 30%;
     //height: 30px;
     background-color: gray;
     border-radius: 5px;
@@ -218,6 +232,7 @@ button{
     color:salmon;
     background-color: black;
     font-size: 20px;
+    border: black;
     //box-shadow: inset 0 0 5px rgba(81, 249, 255, 0.5);
     //box-shadow: 0 0 5px black;
 }
@@ -305,7 +320,6 @@ button{
     top: 0;
     width: 100%; 
     height: 100%; 
-    overflow: auto; 
     background-color: rgba(0,0,0,0.2);
     display: flex;
     align-items: center;
@@ -323,7 +337,7 @@ button{
     font-size: 24px;
     font-family: Teko;
     display:grid;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 60% 40%;
     grid-template-rows: 20% auto 8%;
     grid-template-areas: 
         "section-1 section-1"
@@ -352,9 +366,11 @@ button{
     background-color:rgba(98, 184, 187, 0.5) ;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    padding-left: 10px;
+    padding-left: 50px;
     padding-right: 10px;
     height: 40px;
+    display: flex;
+    align-items: center;
 }
 .section-4{
     grid-area:section-4;
@@ -368,6 +384,7 @@ button{
     width: 100px;
     height: 25px;
     display: inline-block;
+    border: 2px solid black;
 }
 
 #modal-ptemp{
@@ -375,6 +392,7 @@ button{
     width: 100px;
     height: 25px;
     display:inline-block;
+    border: 2px solid black;
 }
 #modal-readouts{
     width: 80%;
@@ -407,7 +425,7 @@ button{
 .modal-wrapper-2{
     width: 98%;
     height: 90%;
-    background: linear-gradient(to bottom, rgb(252, 184, 58),salmon );
+    background: linear-gradient(to bottom, rgba(252, 184, 58, 0.5),rgba(255, 118, 103, 0.5) );
     display:flex;
     align-items: center;
     border-top-right-radius: 25px;
@@ -421,4 +439,8 @@ button{
     height: 40%;
     width: 40px;
     padding: 0px;
+}
+.sound {
+    line-height: 20px;
+    padding: 5px;
 }

@@ -41,24 +41,20 @@
                     <div id="modal-readouts"> 
                         <h3 id="readout-1"> Stellar Scan Data</h3>
                         <h3 id="readout-2"> Status Panel </h3>
-                        
                         <h3 id="readout-3">Long Range Scan Status</h3>
                         <h3 id="readout-4">Mission Briefing </h3>
-                        
                         <h3 id="readout-5">Helm Control </h3> 
-                    
                         <h3 id="readout-6">Initiate warp drive</h3>
                         <h3 id="readout-7">Pause simulation</h3>
-                    
                         <h3 id="readout-8">Planetary Scan Data</h3>        
                         <h3 id="readout-9">Star system ID</h3>
                     </div>
                 </div>
 
                 <div class="section-3">
-                    <h3> Legend</h3>
-                    <h3>Stars: - <div id="modal-stemp"></div> + </h3>
-                    <h3>Planets: - <div id="modal-ptemp"></div> + </h3>
+                    <h3>Legend</h3>
+                    <h3>Stellar temperature: - <div id="modal-stemp"></div> + </h3>
+                    <h3>Planetary temperature: - <div id="modal-ptemp"></div> + </h3>
                 </div>
 
                 <div class="section-4">
@@ -72,33 +68,37 @@
 </div>
 
 
-    <div class="main-render"> <!-- 4 children -->
-        <!-- <canvas class="animations"></canvas> -->
+    <div class="main-render">
+
         <div class="header"><h1>Exoplanet Explorer</h1></div>
 
         <div class="canvas-container">
             <canvas class="background"></canvas>
         </div>
         
+
         <div class="star-card">
-            <h3>Spectral Class </h3>
-                <h4 class="spectype"></h4>
-            <h3>Temperature </h3>
-                <h4 class="stemp"></h4>
-            <h3>Mass</h3>
-                <h4 class="smass"></h4>
-            <h3>Radius (in units of solar radius) </h3>
-                <h4 class="sradius"></h4>
-            <h3>Metallicity</h3>
-                <h4 class="metallicity"></h4>
-                <!-- maybe something indicating green/red based on habitability req? high metallicity good. -->
-            <h3>Luminosity</h3>
-                <h4 class="luminosity"></h4>
-            <h3>Coordinates</h3>
-                <h4 class="coordinates"></h4>
-            <h3>Distance from Earth</h3>
-                <h4 class="distance"></h4>
-            
+            <div class="scard-wrapper">
+                <div class="scard-wrapper-2">
+                    <h3>Spectral Class </h3>
+                        <h4 class="spectype"></h4>
+                    <h3>Temperature </h3>
+                        <h4 class="stemp"></h4>
+                    <h3>Mass</h3>
+                        <h4 class="smass"></h4>
+                    <h3>Radius (in units of solar radius) </h3>
+                        <h4 class="sradius"></h4>
+                    <h3>Metallicity</h3>
+                        <h4 class="metallicity"></h4>
+                        <!-- maybe something indicating green/red based on habitability req? high metallicity good. -->
+                    <h3>Luminosity</h3>
+                        <h4 class="luminosity"></h4>
+                    <h3>Coordinates</h3>
+                        <h4 class="coordinates"></h4>
+                    <h3>Distance from Earth</h3>
+                        <h4 class="distance"></h4>
+                </div>
+            </div>
         </div>
 
         <div class="sys-name">
@@ -131,10 +131,11 @@
           </div> 
         </div>
         <footer class="controls">
+
             <div class="star-info">
-                
                 <button class="close-scard"><i id="s-toggle" class="fa fa-angle-double-up"></i></button>
             </div>
+
             <div class="status">
                 <ul class="nav-status">Navigation Status:
                     <li class="system">Scanning for star systems...</li>
@@ -145,22 +146,22 @@
                     <li id="github"><a href="https://github.com/acheung-94"><i class="fa fa-github-alt"></i></a></li>
                     <li id="linkedin"><a href="https://www.linkedin.com/in/andrea-cheung-b9b5072b2/"><i class="fa fa-linkedin"></i></a></li>
                 </ul>
-
-
             </div>
+
             <div class="buttons">
                 <div class="button-wrapper">
                     <div class="button-background">
                         <button class="explore">ENGAGE</button>
-                        <ul> <li></li> <li></li> <li></li> <li></li></ul>
+                        <button class="sound"> <i class="fa fa-volume-up"></i></button>
                         <button class="pause"> PAUSE </button>
                     </div>
                 </div>
             </div>
+            
             <div class="planet-info">
-                
-            <button class="close-pcard"><i id="p-toggle" class="fa fa-angle-double-up"></i></button>
+                <button class="close-pcard"><i id="p-toggle" class="fa fa-angle-double-up"></i></button>
             </div>
+            <audio src="/assets/audio/Orbit.mp3" hidden loop></audio>
         </footer>
 </body>
 </html>

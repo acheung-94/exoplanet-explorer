@@ -20,7 +20,6 @@ export function toggleModal (){
     
     if (modal.style.display === "none") {
         modal.style.display = "flex"
-        console.log(modal)
     }else{
         modal.style.display = "none"
     }
@@ -45,8 +44,6 @@ function removeHighlights () {
 
 export function scrollHandler(event) {
     let deltaY = event.deltaY
-    console.log(deltaY)
-    console.log(i)
     if (deltaY < 0) { // scroll down
         i -= 1
         if (i < 0) {
@@ -58,7 +55,6 @@ export function scrollHandler(event) {
             i = 9
         }
     }
-    console.log(i)
     removeHighlights()
     addHighlight(zones[i])
     addHighlight(readouts[i])
@@ -69,6 +65,7 @@ export function scrollHandler(event) {
 
 export function closeModal (){
     toggleModal()
+    removeHighlights()
     modalIntro.hidden = true
 }
 

@@ -1,10 +1,10 @@
-console.log(`hello!`)
+console.log(`hello! you found me! :)`)
 
 import View from "./scripts/view";
 import * as StarChart from "./scripts/starChart"
 import * as PlanetChart from "./scripts/planetChart"
 import * as Modal from "./scripts/modal"
-import AudioMotionAnalyzer from 'audiomotion-analyzer';
+
 
 // SECTION : RESOURCE QUERIES
 function getStarSystemData(){
@@ -28,19 +28,6 @@ function getStarSystemData(){
             }
         }).catch((err)=> console.error(err))
 }
-
-function getMusic () {
-    // last item, connect to soundcloud API'
-    let song = fetch( `https://api.soundcloud.com/tracks/1772379096`)
-        .then((res) => {
-            if (res.ok) {
-                return res.json()
-            }
-        }).then((data) => {
-            console.log(data)
-        })
-}
-
 
 
 // SECTION : HELPERS
@@ -122,9 +109,32 @@ function updateStatus () {
     }
 }
 
+
+function fadeIn () {
+    musicKey = setInterval( () => {
+        audioEl.volume += 0.05
+        if (audioEl.volume >= 0.3) {
+            audioEl.volume = 0.3
+            clearInterval(musicKey)
+        }
+    }, 1000)
+}
+function fadeOut () {
+    musicKey = setInterval( () => {
+        audioEl.volume -= 0.1
+        if (audioEl.volume <= 0.1) {
+            audioEl.volume = 0
+            audioEl.pause()
+            clearInterval(musicKey)
+        }
+    }, 1000)
+}
+
+
 // SECTION : VARIABLES 
 let starSystemQueue = []
 let refreshKey;
+let musicKey;
 let currentView;
 let animating = false
 let i = 0;
@@ -146,16 +156,17 @@ const closeButton = document.querySelector(`#modal-close`)
 // SECTION : EVENT LISTENERS
 const explore = document.querySelector(".explore")
 explore.addEventListener("click", function(){
-    let pChart = document.querySelector(".planet-card")
     clearInterval(refreshKey)
-    pChart.style.visibility = "hidden"
+    if (document.querySelector(".planet-card").style.visibility === "visible") {
+        PlanetChart.togglePlanetChart()
+    }
     let starSystem = starSystemQueue.shift()
-    updateStatus()
     StarChart.populateStarChart(starSystem)
     currentView = new View(starSystem, canvas)
     refreshKey = setInterval(() => currentView.animate(), 20)
     animating = true
-    pause.innerText = "RESUME"
+    updateStatus()
+    pause.innerText = "PAUSE"
     if (starSystemQueue.length < 1){
         getStarSystemData() //hit the api and refresh the queue in the background. 
 
@@ -170,7 +181,6 @@ pause.addEventListener("click", ()=>{
         animating = false
         pause.innerText = "RESUME"
     }else{
-        
         startAnimation()
         animating = true
         pause.innerText = "PAUSE"
@@ -197,20 +207,26 @@ canvas.addEventListener("mousemove", (event)=>{
 //click on planet
 canvas.addEventListener("click", (event)=>{
     let mousePos = getMousePos(canvas, event)
-    currentView.hostStar.planets.forEach((planet) => {
+    if (currentView) {
+        currentView.hostStar.planets.forEach((planet) => {
         let distance = getDistance(mousePos, planet.pos)
-        if (distance <= (planet.radius + 5)) { // added a 5 px radius buffer for the baby planets
-            PlanetChart.renderPlanetChart(planet, currentView.starSystem)
-        }
+            if (distance <= (planet.radius + 5)) { // added a 5 px radius buffer for the baby planets
+                PlanetChart.renderPlanetChart(planet, currentView.starSystem)
+                //PlanetChart.togglePlanetChart()
+            }
     })
+    }
+
 })
 
 //click on star
 canvas.addEventListener("click", (event) => {
-    let mousePos = getMousePos(canvas, event)
-    let distance = getDistance(mousePos, currentView.hostStar.pos)
-    if (distance <= currentView.hostStar.radius){
-        StarChart.renderStarChart()
+    if (currentView) {
+        let mousePos = getMousePos(canvas, event)
+        let distance = getDistance(mousePos, currentView.hostStar.pos)
+        if (distance <= currentView.hostStar.radius){
+            StarChart.toggleStarChart()
+        }
     }
 })
 
@@ -225,61 +241,29 @@ const sCardButton = document.querySelector(".close-scard")
 sCardButton.addEventListener("click", (event) => {
     StarChart.toggleStarChart()
 })
-
+// modal stuff
 modal.addEventListener("wheel", Modal.scrollHandler)
 openButton.addEventListener("click", Modal.openModal)
 closeButton.addEventListener("click", Modal.closeModal)
+const audioEl = document.querySelector("audio")
+const toggleMusic = document.querySelector(".sound")
 
-// const audioPlay = document.querySelector(".play-audio")
-// audioPlay.addEventListener("click", ()=> {
-//     audioEl.play()
-//     document.querySelector(".audio-label").style.visibility = "visible"
-// })
-// const audioPause = document.querySelector(".pause-audio")
-// audioPause.addEventListener("click", ()=> {
-//     audioEl.pause()
-//     document.querySelector(".audio-label").style.visibility = "hidden"
+toggleMusic.addEventListener("click", ()=> {
+    if (audioEl.paused) {
+        audioEl.volume = 0
+        audioEl.play()
+        fadeIn()
+        document.querySelector(".fa-volume-up").className = "fa fa-volume-off"
+    }else{
+        fadeOut()
+        document.querySelector(".fa-volume-off").className = "fa fa-volume-up"
+    }
+    // document.querySelector(".audio-label").style.visibility = "visible"
+})
 
-// })
-// const vUp = document.querySelector(".vol-up")
-// vUp.addEventListener("click", ()=>{
-//     if(audioEl.volume <= 1.0) {
-//         audioEl.volume += 0.1;
-//     }
-// })
-// const vDown = document.querySelector(".vol-down")
-// vDown.addEventListener("click", ()=>{
-//     audioEl.volume -= 0.1;
-// })
 
 // SECTION : PAGE INITIALIZATION FUNCTIONS
 getStarSystemData()
-//getMusic()
 Modal.initializeModal()
 
 // SECTION : IGNORE
-// canvas.addEventListener("mousemove", function pauseAnimation(event) {
-//     //let boundary = currentView.hostStar.radius
-//     //let planetRadii = getPlanetRadii(currentView.hostStar.planets)
-//     //let starPos = currentView.hostStar.pos
-//     //let planetPositions = getPlanetPositions(currentView.hostStar.planets)
-//     let mousePos = getMousePos(canvas, event)
-//     currentView.hostStar.planets.forEach( (planet) => {
-//         console.log(planet)
-//         let distance = getDistance(mousePos, planet.pos)
-//         if (distance <= planet.radius && animating === true){
-//             animating = false
-//             clearInterval(refreshKey)
-//         }
-//         if (distance > planet.radius && animating === false){
-//             startAnimation()
-//             animating = true
-//             console.log(`uh oh`)
-//         }
-//     })
-//     // ok. so it keeps restarting the animation because there's always
-//     // going to be one planet where the else clause is true, thus restarting
-//     // the animation...
-//     // sigh. maybe i have to just create a click to pause...
-// })
-

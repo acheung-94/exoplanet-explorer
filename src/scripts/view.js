@@ -23,9 +23,16 @@ class View {
 
     draw(ctx){
         ctx.clearRect(0,0, this.canvas.width, this.canvas.height)
-        ctx.fillStyle = "black"
+        
+        let g = ctx.createRadialGradient (
+            this.hostStar.pos.x, this.hostStar.pos.y, (this.hostStar.radius / 10),
+            this.hostStar.pos.x, this.hostStar.pos.y, (this.hostStar.radius + 20)
+            )
+        g.addColorStop (0, this.hostStar.color)
+        g.addColorStop(1, "black")
+        ctx.fillStyle = g
         ctx.fillRect(0,0, this.canvas.width, this.canvas.height)
-    }
+    } // *chef's kiss*
    
 }
 
