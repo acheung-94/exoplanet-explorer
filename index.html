@@ -12,36 +12,66 @@
 </head>
 
 
-<body>    
+<body> 
+       
 <div id="modal">
-    
-        <h2>Introduction:</h2>
-        <p> This is a briefing from the Interstellar Task Force on Earth.
-            The purpose of this simulation is to ensure readiness for your first deep space mission.
-             </p>
+    <div class="modal-wrapper-1">
+        <div class="modal-wrapper-2">
             <div class="modal-contents">
-            <h2>Instructions</h2>
-            <p>The program is designed to assist you in acquiring data and displaying them holographically on your HUD.
-                It will also generate a thermally-colorized simulation of the star system.
                 
-                
-                Located on your navigation console are the following instruments:
-                <h3>Holographic readout for stellar data.</h3>
-                <h3>Status Panel </h3>
-                    <ul>
-                        <li>On the left is the status of your long-range scans.</li>
-                        <li>Additionally, this is where you may access this entry, should you ever need it again. </li>
-                    </ul>
-                <h3>Helm Control </h3> 
-                    <ul>
-                        <li>Press 'Engage' to initiate warp travel to the next star system (the computer will program in the coordinates without your input).</li>
-                        <li>Press 'Pause' to pause simulation. </li>
-                    </ul>
-                <h3>Holographic readout for planetary data.</h3>
+                <div class="section-1">
+                    <div id="modal-intro">
+                        <h2> begin transmission.</h2>
+                        <p> 
+                            This is a briefing from the Interstellar Task Force on Earth.
+                            The purpose of this simulation is to ensure readiness for your first deep space mission.
+                        </p>
+                    </div>
+                    
+                    <h2>instructions</h2>
+                        <p>
+                            The program is designed to assist you in acquiring data on exoplanetary systems compiled and archived from NASA's space telescopes and Earth's astronomical observatories and displaying them holographically on your HUD.
+                            It will also generate a thermally-colorized simulation of the star system.
+                            In the center of your HUD is the rendering area. Objects are colorized based on their thermal signatures.
+                        </p>    
+                    </div>
 
-                </p> 
+                <div class="section-2">
+                    Located on your navigation console are the following instruments (scroll to change zones)
+                    <div id="modal-readouts"> 
+                        <h3 id="readout-1"> Stellar Scan Data</h3>
+                        <h3 id="readout-2"> Status Panel </h3>
+                        
+                        <h3 id="readout-3">Long Range Scan Status</h3>
+                        <h3 id="readout-4">Mission Briefing </h3>
+                        
+                        <h3 id="readout-5">Helm Control </h3> 
+                    
+                        <h3 id="readout-6">Initiate warp drive</h3>
+                        <h3 id="readout-7">Pause simulation</h3>
+                    
+                        <h3 id="readout-8">Planetary Scan Data</h3>        
+                        <h3 id="readout-9">Star system ID</h3>
+                    </div>
+                </div>
+
+                <div class="section-3">
+                    <h3> Legend</h3>
+                    <h3>Stars: - <div id="modal-stemp"></div> + </h3>
+                    <h3>Planets: - <div id="modal-ptemp"></div> + </h3>
+                </div>
+
+                <div class="section-4">
+                    <p>Good luck.</p> 
+                    <button id="modal-close"> <i class="fa fa-angle-double-down"></i> </button>
+                </div>
+
+            </div> <!-- modal-contents-->
+        </div>
     </div>
 </div>
+
+
     <div class="main-render"> <!-- 4 children -->
         <!-- <canvas class="animations"></canvas> -->
         <div class="header"><h1>Exoplanet Explorer</h1></div>
@@ -111,7 +141,7 @@
                 </ul>
 
                 <ul class="links">
-                    <li id="modal-button"> <a href="#modal-content"><i class="fa fa-bars"></i></a></li>
+                    <li id="modal-open"> <a href="#modal-content"><i class="fa fa-bars"></i></a></li>
                     <li id="github"><a href="https://github.com/acheung-94"><i class="fa fa-github-alt"></i></a></li>
                     <li id="linkedin"><a href="https://www.linkedin.com/in/andrea-cheung-b9b5072b2/"><i class="fa fa-linkedin"></i></a></li>
                 </ul>

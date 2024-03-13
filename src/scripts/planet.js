@@ -12,13 +12,11 @@ class Planet {
         this.pos = { "x" : hostStar.pos.x + (this.distance * Math.cos(this.angle)),
                      "y" : hostStar.pos.y + (this.distance * Math.sin(this.angle))}
         this.highlighted = false;
-        //console.log(this.name, this.vel) // for adjustment
     }
 
     scaleColor(temp){
         if (temp) {
             const tempScale = d3.scaleSequential([50, 1200], d3.interpolateTurbo)
-            console.log(tempScale(temp))
             return tempScale(temp)
         }else{
             return "gray"
@@ -71,7 +69,7 @@ class Planet {
         let vecX = this.pos.x + ((this.radius * 0.5)*(Math.cos(this.angle - Math.PI)))
         let vecY = this.pos.y + ((this.radius * 0.5)*(Math.sin(this.angle - Math.PI)))
         //let o = this.hostStar.color.slice(0, 3) + `a` + this.hostStar.color.slice(3, this.hostStar.color.length - 1) + `, 0.2)`
-   
+        
         if (this.color === "gray"){
             g = ctx.createRadialGradient(
                 vecX, vecY, (this.radius/10), //starting circle in a vector pointing towards host star.

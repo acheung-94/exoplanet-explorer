@@ -33,12 +33,6 @@ h4{
     font-size: auto;
 }
 
-p{
-    font-family: Venus;
-    font-size:8px;
-    letter-spacing: 3px;
-    font-stretch: condensed;
-}
 // button{
 //     background:none;
 //     color:aqua;
@@ -62,8 +56,6 @@ button{
 }
 
 .main-render{
-    //padding:100px;
-    //border: 5px solid maroon;
     background-color: black;
     cursor: crosshair;
     display: grid;
@@ -183,6 +175,7 @@ button{
     width: 75%;
     height: 90%;
     border-bottom-left-radius: 15px;
+    border-top-right-radius: 5px;
     justify-content: space-around;
     align-items: center;
 }
@@ -192,6 +185,7 @@ button{
     width: 90%;
     height: 90%;
     border-bottom-left-radius: 15px;
+    border-top-right-radius: 5px;
     justify-content: flex-end;
     align-items: flex-start;
 }
@@ -288,13 +282,8 @@ button{
 .planet-info{
     grid-area: pcard;
 }
-// .slot1, .slot2 {
-//     border: 4px solid black;
-//     border-radius: 10px;
-//     width: 75%;
-//     grid-area: scard;
-// }
-#modal-button{
+
+#modal-open{
     background-color:cadetblue;
     border-top-left-radius: 10px;
 }
@@ -310,13 +299,126 @@ button{
 
 
 #modal{
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    position: fixed; 
+    z-index: 1; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+
+}
+
+.modal-contents{
+    background-color: #0F171A;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    width: 90%;
+    height: 95%;
+    padding-left: 10px; 
+    color: white;
+    font-size: 24px;
+    font-family: Teko;
+    display:grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: 20% auto 8%;
+    grid-template-areas: 
+        "section-1 section-1"
+        "section-2 section-3"
+        "section-4 section-4";
+}
+.section-1{
+    grid-area: section-1;
+}
+.section-2{
+    grid-area: section-2;
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.section-3{
+    grid-area:section-3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-end;
+
+}
+.section-3 h3{
+    background-color:rgba(98, 184, 187, 0.5) ;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 40px;
+}
+.section-4{
+    grid-area:section-4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#modal-stemp{
+    background: linear-gradient(to right, red, yellow, white, rgb(202, 219, 255));
+    width: 100px;
+    height: 25px;
+    display: inline-block;
+}
+
+#modal-ptemp{
+    background: linear-gradient(to right, blue,green, yellow, red);
+    width: 100px;
+    height: 25px;
+    display:inline-block;
+}
+#modal-readouts{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#modal-readouts h3{
+    background-color: rgba(134, 81, 134, 0.5);
+    width: 50%;
+    padding-left: 20%;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+}
+.highlight{
+    box-shadow: 0 0 25px rgb(255, 255, 255);
+}
+
+.modal-wrapper-1{
+    background-color: rgba(54, 54, 54, 0.5);
+    width: 85%;
+    height: 80%;
+    display:flex;
+    align-items: center;
+}
+
+.modal-wrapper-2{
+    width: 98%;
+    height: 90%;
+    background: linear-gradient(to bottom, rgb(252, 184, 58),salmon );
+    display:flex;
+    align-items: center;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+#modal-close{
+    background-color: rgb(206, 120, 134);
+    border:none;
+    border-radius: 10px;
+    height: 40%;
+    width: 40px;
+    padding: 0px;
 }

@@ -8,10 +8,10 @@ export function populatePlanetChart(planet) {
 
     let radius = document.querySelector(".pradius")
     radius.innerText = `${Math.floor(planet.pl_rade * 6370)} km`
-    let pixels = renderRadScale(radius, planet.pl_rade)
-    let marker = document.querySelector("#radmarker")
-    console.log(pixels)
-    marker.style.left = pixels
+    // let pixels = renderRadScale(radius, planet.pl_rade)
+    // // let marker = document.querySelector("#radmarker")
+    // // console.log(pixels)
+    // // marker.style.left = pixels
 
     let mass = document.querySelector(".pmass")
     mass.innerText = `${planet.pl_bmasse} x Earth mass`

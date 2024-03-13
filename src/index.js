@@ -1,10 +1,9 @@
 console.log(`hello!`)
 
 import View from "./scripts/view";
-//import * as PlanetChart from "./scripts/planetChart";
 import * as StarChart from "./scripts/starChart"
 import * as PlanetChart from "./scripts/planetChart"
-
+import * as Modal from "./scripts/modal"
 import AudioMotionAnalyzer from 'audiomotion-analyzer';
 
 // SECTION : RESOURCE QUERIES
@@ -17,11 +16,8 @@ function getStarSystemData(){
             }
         }).then(data => {
             if (data.length) { // ie if length is not zero
-                console.log(`data.length > 0 .. returning now`)
-                console.log(groupByHostName(data))
                 return groupByHostName(data)
             }else{ // if data.lenght is zero (falsy)
-                console.log(`came up empty, trying again`)
                 return getStarSystemData()
                 //recursively call itself until data.length > 0
             }
@@ -29,7 +25,6 @@ function getStarSystemData(){
             if (sortedData) {
                 starSystemQueue = starSystemQueue.concat(sortedData)
                 updateStatus()
-                console.log(starSystemQueue)
             }
         }).catch((err)=> console.error(err))
 }
@@ -132,7 +127,7 @@ let starSystemQueue = []
 let refreshKey;
 let currentView;
 let animating = false
-
+let i = 0;
 const renderContainer = document.querySelector('.canvas-container')
 let canvas = document.querySelector('.background') // i think I want two canvases... one for background and one for animation... that sounds like a good idea.
 let container = canvas.parentNode.getBoundingClientRect();
@@ -141,6 +136,12 @@ canvas.width = container.width
 let ctx = canvas.getContext('2d')
 ctx.fillStyle = "black"
 ctx.fillRect(0,0, canvas.width, canvas.height)
+
+const modal = document.querySelector(`#modal`)
+const modalIntro = document.querySelector(`#modal-intro`)
+const modalContent = document.querySelector(`#modal-contents`)
+const openButton = document.querySelector(`#modal-open`)
+const closeButton = document.querySelector(`#modal-close`)
 
 // SECTION : EVENT LISTENERS
 const explore = document.querySelector(".explore")
@@ -225,6 +226,10 @@ sCardButton.addEventListener("click", (event) => {
     StarChart.toggleStarChart()
 })
 
+modal.addEventListener("wheel", Modal.scrollHandler)
+openButton.addEventListener("click", Modal.openModal)
+closeButton.addEventListener("click", Modal.closeModal)
+
 // const audioPlay = document.querySelector(".play-audio")
 // audioPlay.addEventListener("click", ()=> {
 //     audioEl.play()
@@ -250,7 +255,7 @@ sCardButton.addEventListener("click", (event) => {
 // SECTION : PAGE INITIALIZATION FUNCTIONS
 getStarSystemData()
 //getMusic()
-
+Modal.initializeModal()
 
 // SECTION : IGNORE
 // canvas.addEventListener("mousemove", function pauseAnimation(event) {

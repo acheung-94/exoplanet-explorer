@@ -77,7 +77,6 @@ class Star {
             return scaled * (Math.random() * (1.5 - 1.0) + 1.0)
         }else if ( scaled < 50) {
             scaled = scaled * (Math.random() * (2.0 - 1.5) + 1.5) 
-            console.log(`resized: ${scaled}`)
             return scaled
         }else{
             return scaled
