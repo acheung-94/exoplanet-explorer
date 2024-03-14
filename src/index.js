@@ -209,12 +209,13 @@ canvas.addEventListener("click", (event)=>{
     let mousePos = getMousePos(canvas, event)
     if (currentView) {
         currentView.hostStar.planets.forEach((planet) => {
-        let distance = getDistance(mousePos, planet.pos)
-            if (distance <= (planet.radius + 5)) { // added a 5 px radius buffer for the baby planets
+            let distance = getDistance(mousePos, planet.pos)
+            if (distance <= (planet.radius + 10)) { // added a 10 px radius buffer for the baby planets
                 PlanetChart.renderPlanetChart(planet, currentView.starSystem)
                 //PlanetChart.togglePlanetChart()
             }
-    })
+        })
+
     }
 
 })
@@ -258,7 +259,6 @@ toggleMusic.addEventListener("click", ()=> {
         fadeOut()
         document.querySelector(".fa-volume-off").className = "fa fa-volume-up"
     }
-    // document.querySelector(".audio-label").style.visibility = "visible"
 })
 
 
