@@ -22,43 +22,43 @@ Stylistically, this app draws heavy inspiration from Star Trek: The Next Generat
 - Each planet's orbit simulation is derived from its semi-major axis (The longest radius of an elliptic orbit, or the projected separation in the plane of the sky) and orbital period (the number of days it takes to complete a single rotation around its star.)
 - The range of values is extreme, from one day to over 12,000 days, and  0.05 to over 1000 AU. That being said, heavy liberties were taken while scaling and tuning data to ensure practicality of orbit visualization. I utilized d3's linear and logarithmic scaling functions to help maintain integrity of planetary movement while keeping it in a visually pleasing range of pixel values.
 Example: 
-`
-        if (!smax) {
-            smax = this.estimateSMAxis(this.hostStar, this.data)
-        }
+``
+if (!smax) {
+    smax = this.estimateSMAxis(this.hostStar, this.data)
+}
 
-        let orbPerRange = [1, 9000]
-        let velRange = [0.08, 0.0015]
+let orbPerRange = [1, 9000]
+let velRange = [0.08, 0.0015]
 
-        let velScale = d3.scaleLog().domain(orbPerRange).range(velRange)
-        velScale.clamp(true)
+let velScale = d3.scaleLog().domain(orbPerRange).range(velRange)
+velScale.clamp(true)
 
-        return velScale(orbper)
-`
+return velScale(orbper)
+``
 - Some values, when not available, are extrapolated using light versions Kepler's laws of planetary motion.
-`
-    estimateSMAxis(hostStar, planet) {
-        hostStar.st_mass = hostStar.st_mass || 1.6
-        planet.pl_bmasse = planet.pl_bmasse || 1.0
+``
+estimateSMAxis(hostStar, planet) {
+hostStar.st_mass = hostStar.st_mass || 1.6
+planet.pl_bmasse = planet.pl_bmasse || 1.0
 
-        let m1 = hostStar.st_mass * 1.989e30
-        let m2 = planet.pl_bmasse * 5.972e24
-        let g = 6.67430e-11
-        let t = planet.pl_orbper * 86400
+let m1 = hostStar.st_mass * 1.989e30
+let m2 = planet.pl_bmasse * 5.972e24
+let g = 6.67430e-11
+let t = planet.pl_orbper * 86400
 
-        let top = (t**2)*g*(m1+m2)
-        let bottom = (4* Math.PI **2)
-        let meters = Math.cbrt (top / bottom)
+let top = (t**2)*g*(m1+m2)
+let bottom = (4* Math.PI **2)
+let meters = Math.cbrt (top / bottom)
 
-        return meters / 1.496e11
-    }
-`
+return meters / 1.496e11
+}
+``
 - Planets also have been colorized based on their equilibrium temperatures. Red-orange suggest higher temperatures, green is around 550 K (Earth's EQT is about 550 after other factors.), and blue is less than ~400 K. Gray bodies don't have data available for colorization.
 
 ### Selection indicator for planets
 - Hovering over a planet highlights it with a target circle to aid tracking of its movement and reference to which planet's card is currently rendered. 
 - Never lose track of which planet you're reading about!
-![img](/assets/video1598897595-ezgif.com-optimize.gif)
+- ![img](/assets/video1598897595-ezgif.com-optimize.gif)
 
 ### Data management strategy
 - Some queries to NASA's database take a little longer than others, based on how the search is performed. Star systems are acquired by defining a random, roughly 5 degree latitudinal range, intersected by a 180 degree longitudinal range. Given a large proportion of data in this archive is collected from Kepler/K2 space telescopes focused on a single conical range of space viewed from earth, this means that some queries will return hundreds of star systems and others will return a handful or none. 
@@ -67,7 +67,7 @@ Example:
 - Those objects are parsed and filtered, and placed in a queue. 
 - The queue is refreshed when the last object is grabbed and rendered, and triggers another fetch in the background while you enjoy some animations and star system information.
 - While fetching, you will not be able to generate a new star system. The 'engage' button will gray out, and your scan status will read 'Long range scan in progress...'
-![status](/assets/status%20buttons.png)
+- ![status](/assets/status%20buttons.png)
 
 ## In addition, this project will include:
 
