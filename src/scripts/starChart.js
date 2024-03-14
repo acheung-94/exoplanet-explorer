@@ -2,16 +2,19 @@ import Star from "./star"
 
 export function populateStarChart(starSystem) {
     let star = starSystem[0]
-    //how should i go about this....? programatically create field names? it would be weird to iterate through and put like 17 different conditions... 
-    // i could also just manually create field names in the html, then grab each name and append the data values to it. 
+    
     let name = document.querySelector(".host-star")
-    name.innerText = star.hostname
+    name.innerText = `star system ${star.hostname}`
+    let stars = document.querySelector(".num-stars")
+    stars.innerText = `Stars: 1`
 
+    let planets = document.querySelector(".num-planets")
+    planets.innerText = `Planets: ${starSystem.length}`
+    
     let spectype = document.querySelector(".spectype")
-    //alright get ready for some crazy stuff...
     if (star.st_spectype){
         spectype.innerText = star.st_spectype
-    }else { // if data is not provided for spectral type, create a dummy star and obtain its general class.
+    }else { // if data is missing for spectral type, create a dummy star and obtain its general class.
         let dummy = new Star(0, starSystem)
         spectype.innerText = dummy.class
     }
@@ -40,7 +43,6 @@ export function populateStarChart(starSystem) {
 
 export function renderStarChart() {
     let starCard = document.querySelector(".star-card")
-    //populateStarChart(star);
     starCard.style.visibility = "visible";
 }
 

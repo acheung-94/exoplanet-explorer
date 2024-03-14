@@ -1,4 +1,3 @@
-console.log(`hello! you found me! :)`)
 
 import View from "./scripts/view";
 import * as StarChart from "./scripts/starChart"
@@ -15,11 +14,10 @@ function getStarSystemData(){
             return res.json();
             }
         }).then(data => {
-            if (data.length) { // ie if length is not zero
+            if (data.length) { 
                 return groupByHostName(data)
-            }else{ // if data.lenght is zero (falsy)
+            }else{ 
                 return getStarSystemData()
-                //recursively call itself until data.length > 0
             }
         }).then( (sortedData)=>{
             if (sortedData) {
@@ -45,7 +43,6 @@ function generateURL(){
     let plColumns = `pl_name,pl_rade,pl_bmasse,pl_dens,pl_eqt,pl_orbper,pl_orbsmax,disc_year,disc_facility,discoverymethod,`
     let stColumns = `hostname,st_spectype,st_teff,st_mass,st_rad,st_met,st_metratio,st_lum,rastr,decstr,sy_dist`
     let query = `select ${plColumns}${stColumns} from pscomppars where sy_snum = 1 and sy_pnum >= 2 and ${raRange} and dec ${dec}`
-    //i think there might be another character encoding issue
     query = query.split(" ").join("+")
     let result = encodeURIComponent(`${url}${query}&format=json`)
 
@@ -53,9 +50,9 @@ function generateURL(){
 }
 
 function groupByHostName(data){
-    let hostNames = [] // unique host systems
+    let hostNames = [] 
     let allSystems = []
-    if (data.length){ // in the future this shouldn't be necessary. this will only be called if data.length > 0
+    if (data.length){ 
         data.forEach( (record) =>{
         if (record.hostname && !hostNames.includes(record.hostname)){
             hostNames.push(record.hostname)
@@ -126,6 +123,16 @@ function fadeOut () {
     }, 1000)
 }
 
+function clearHighlightsExcept(planet){
+    currentView.hostStar.planets.forEach ((otherPlanet) => {
+        if (otherPlanet !== planet) {
+            otherPlanet.selected = false
+            console.log(otherPlanet, otherPlanet.selected)
+        }
+        
+    })
+
+}
 
 // SECTION : VARIABLES 
 let starSystemQueue = []
@@ -134,8 +141,8 @@ let musicKey;
 let currentView;
 let animating = false
 let i = 0;
-const renderContainer = document.querySelector('.canvas-container')
-let canvas = document.querySelector('.background') // i think I want two canvases... one for background and one for animation... that sounds like a good idea.
+//const renderContainer = document.querySelector('.canvas-container')
+let canvas = document.querySelector('.background') 
 let container = canvas.parentNode.getBoundingClientRect();
 canvas.height = container.height
 canvas.width = container.width
@@ -144,13 +151,18 @@ ctx.fillStyle = "black"
 ctx.fillRect(0,0, canvas.width, canvas.height)
 
 const modal = document.querySelector(`#modal`)
-const modalIntro = document.querySelector(`#modal-intro`)
-const modalContent = document.querySelector(`#modal-contents`)
 const openButton = document.querySelector(`#modal-open`)
 const closeButton = document.querySelector(`#modal-close`)
+const explore = document.querySelector(".explore")
+const pause = document.querySelector(".pause")
+const sCardButton = document.querySelector(".close-scard")
+const pCardButton = document.querySelector(".close-pcard")
+const audioEl = document.querySelector("audio")
+const toggleMusic = document.querySelector(".sound")
+
+
 
 // SECTION : EVENT LISTENERS
-const explore = document.querySelector(".explore")
 explore.addEventListener("click", function(){
     clearInterval(refreshKey)
     if (document.querySelector(".planet-card").style.visibility === "visible") {
@@ -170,7 +182,7 @@ explore.addEventListener("click", function(){
     
 })
 
-const pause = document.querySelector(".pause")
+
 pause.addEventListener("click", ()=>{
     if (animating) {
         animating = false
@@ -186,14 +198,14 @@ canvas.addEventListener("mousemove", (event)=>{
     if (currentView) {
         let mousePos = getMousePos(canvas, event)
         currentView.hostStar.planets.forEach ( (planet) => {
-        let distance = getDistance(mousePos, planet.pos)
-        if (distance <= (planet.radius + 10)) {
-            planet.highlighted = true
-          
-        }else{
-            planet.highlighted = false
-        }
-    })
+            let distance = getDistance(mousePos, planet.pos)
+            if (distance <= (planet.radius + 10)) {
+                planet.highlighted = true
+            
+            }else{
+                planet.highlighted = false
+            }
+        })
     }
 
 })
@@ -205,11 +217,10 @@ canvas.addEventListener("click", (event)=>{
         currentView.hostStar.planets.forEach((planet) => {
             let distance = getDistance(mousePos, planet.pos)
             if (distance <= (planet.radius + 10)) { // added a 10 px radius buffer for the baby planets
-                // clear all highlights and write a drawStatic(ctx) that ignores highlight status to override the mousemove version. 
-                planet.highlighted = true
-                planet.draw(ctx)
+                console.log(planet)
+                clearHighlightsExcept(planet)
+                planet.selected = true
                 PlanetChart.renderPlanetChart(planet, currentView.starSystem)
-                //PlanetChart.togglePlanetChart()
             }
         })
 
@@ -228,23 +239,24 @@ canvas.addEventListener("click", (event) => {
     }
 })
 
-//planet card BUTTON
-const pCardButton = document.querySelector(".close-pcard")
+//planet card
+
 
 pCardButton.addEventListener("click", (event)=>{
     PlanetChart.togglePlanetChart()
 })
 //close star card
-const sCardButton = document.querySelector(".close-scard")
+
 sCardButton.addEventListener("click", (event) => {
     StarChart.toggleStarChart()
 })
-// modal stuff
+// modal listeners
 modal.addEventListener("wheel", Modal.scrollHandler)
+
 openButton.addEventListener("click", Modal.openModal)
+
 closeButton.addEventListener("click", Modal.closeModal)
-const audioEl = document.querySelector("audio")
-const toggleMusic = document.querySelector(".sound")
+
 
 toggleMusic.addEventListener("click", ()=> {
     if (audioEl.paused) {
@@ -263,4 +275,3 @@ toggleMusic.addEventListener("click", ()=> {
 getStarSystemData()
 Modal.initializeModal()
 
-// SECTION : IGNORE

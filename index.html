@@ -37,7 +37,7 @@
                     </div>
 
                 <div class="section-2">
-                    Located on your navigation console are the following instruments (scroll to change zones)
+                    Located on your navigation console are the following instruments (scroll to highlight zones)
                     <div id="modal-readouts"> 
                         <h3 id="readout-1"> Stellar Scan Data</h3>
                         <h3 id="readout-2"> Status Panel </h3>
@@ -62,7 +62,7 @@
                     <button id="modal-close"> <i class="fa fa-angle-double-down"></i> </button>
                 </div>
 
-            </div> <!-- modal-contents-->
+            </div>
         </div>
     </div>
 </div>
@@ -100,11 +100,15 @@
                 </div>
             </div>
         </div>
-
+        <div class="stars">
+            <h2 class="num-stars"></h2>
+        </div>
         <div class="sys-name">
             <h2 class="host-star"></h2>
         </div>
-
+        <div class="planets">
+            <h2 class="num-planets"></h2>
+        </div>
         <div class="planet-card">
             <div class="pcard-wrapper">
                 <h3 id="pname"> </h3>
@@ -161,7 +165,7 @@
             <div class="planet-info">
                 <button class="close-pcard"><i id="p-toggle" class="fa fa-angle-double-up"></i></button>
             </div>
-            <audio src="/assets/audio/Orbit.mp3" hidden loop></audio>
+            <audio src="assets/audio/Orbit.mp3" hidden loop></audio>
         </footer>
 </body>
 </html>

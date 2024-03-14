@@ -12,7 +12,6 @@ class View {
     } 
 
     animate (animating) {
-        console.log(animating)
         this.draw(this.ctx)
         this.hostStar.draw(this.ctx)
         this.planets.forEach ( (planet) => {

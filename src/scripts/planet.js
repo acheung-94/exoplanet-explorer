@@ -13,6 +13,7 @@ class Planet {
         this.pos = { "x" : hostStar.pos.x + (this.distance * Math.cos(this.angle)),
                      "y" : hostStar.pos.y + (this.distance * Math.sin(this.angle))}
         this.highlighted = false;
+        this.selected = false
     }
 
     scaleColor(temp){
@@ -92,7 +93,7 @@ class Planet {
         ctx.fill() 
         
         
-        if (this.highlighted){
+        if (this.highlighted || this.selected){
             let radConversion = Math.PI / 180
             let degStart = 10
             let degEnd = 80
