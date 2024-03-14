@@ -3,18 +3,15 @@ import Star from "./star"
 export function populateStarChart(starSystem) {
     let star = starSystem[0]
     
-    let name = document.querySelector(".host-star")
-    name.innerText = `star system ${star.hostname}`
-    let stars = document.querySelector(".num-stars")
-    stars.innerText = `Stars: 1`
-
-    let planets = document.querySelector(".num-planets")
-    planets.innerText = `Planets: ${starSystem.length}`
+    generateCounter(starSystem)
     
+    let name = document.querySelector(".host-star")
+    name.innerText = star.hostname
+
     let spectype = document.querySelector(".spectype")
     if (star.st_spectype){
         spectype.innerText = star.st_spectype
-    }else { // if data is missing for spectral type, create a dummy star and obtain its general class.
+    }else { 
         let dummy = new Star(0, starSystem)
         spectype.innerText = dummy.class
     }
@@ -60,3 +57,36 @@ export function toggleStarChart() {
     }
 }
 
+function generateCounter (starSystem) {
+    let pcounter = document.querySelector(".num-planets")
+    let scounter = document.querySelector(".stars")
+    if(pcounter.childElementCount > 0 || scounter.childElementCount > 0) {
+        clearCounter()
+    }
+
+    for(let i=0; i < starSystem.length; i++){
+        let tick = document.createElement('div')
+        pcounter.appendChild(tick)
+    }
+    let count = document.createElement('h2')
+    count.innerText = `0${starSystem.length}`
+    pcounter.appendChild(count)
+
+    let stick = document.createElement('div')
+    let scount = document.createElement('h2')
+    scount.innerText = `01`
+    scounter.appendChild(scount)
+    scounter.appendChild(stick)
+}
+
+function clearCounter() {
+    let pcounter = document.querySelector(".num-planets")
+    let scounter = document.querySelector(".stars")
+    while(pcounter.childElementCount){
+        pcounter.removeChild(pcounter.firstChild)
+    }
+
+    while(scounter.childElementCount){
+        scounter.removeChild(scounter.firstChild)
+    }
+}

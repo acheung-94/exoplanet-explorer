@@ -1,17 +1,13 @@
 
 import * as d3 from 'd3'
 export function populatePlanetChart(planet) {
-    //planet is a data object
-    //console.log(currentPlanetData)
+
     let name = document.querySelector("#pname")
     name.innerText = planet.pl_name
 
     let radius = document.querySelector(".pradius")
     radius.innerText = `${Math.floor(planet.pl_rade * 6370)} km`
-    // let pixels = renderRadScale(radius, planet.pl_rade)
-    // // let marker = document.querySelector("#radmarker")
-    // // console.log(pixels)
-    // // marker.style.left = pixels
+
 
     let mass = document.querySelector(".pmass")
     mass.innerText = `${planet.pl_bmasse} x Earth mass`
@@ -59,17 +55,4 @@ export function togglePlanetChart() {
         planetCard.style.visibility = "hidden"
         planetCardButton.className = "fa fa-angle-double-up"
     }
-}
-
-function renderRadScale(dom, radius) {
-    let item;
-    if( radius < 1.5 && radius > 0.5){
-        item = 1
-    }else if (radius > 1.5) {
-        item = (radius / 33 )
-    }else {
-        item = radius * -1
-    }
-    let pixels = item * 50
-    return pixels
 }

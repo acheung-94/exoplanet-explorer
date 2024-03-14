@@ -3,7 +3,7 @@ import Planet from "./planet"
 import * as d3 from "d3"
 class Star {
     constructor (canvas, starSystem){
-        if (canvas){ // if there *is* a canvas passed in, do full construction.
+        if (canvas){ 
         this.pos = { "x" : canvas.width / 2,
                      "y" : canvas.height / 2}
         this.class = this.setStellarClass(starSystem[0])
@@ -11,13 +11,13 @@ class Star {
         this.planets = []
         this.color = this.scaleColorByTemperature(starSystem[0]["st_teff"])
         this.addPlanets(starSystem)
-        }else { // if no canvas, or canvas is 0, just initialize the class.
+        }else { 
             this.class = this.setStellarClass(starSystem[0])
-        }
-        
+        }    
     }
+
     setStellarClass(system){
-        if (system["st_spectype"]){ // some entries have null for spectral type.
+        if (system["st_spectype"]){ 
             return system["st_spectype"]
         }else{ 
             let kelvin = system["st_teff"]
@@ -68,19 +68,6 @@ class Star {
 
     }
 
-    scaleRadius(radius){
-        let km = radius * 695700
-        let scaled = km * 0.00005
-        
-        if (scaled >= 100 ){
-            return scaled * (Math.random() * (1.5 - 1.0) + 1.0)
-        }else if ( scaled < 50) {
-            scaled = scaled * (Math.random() * (2.0 - 1.5) + 1.5) 
-            return scaled
-        }else{
-            return scaled
-        }
-    }
     
     addPlanets(starSystem){
         starSystem.forEach( (planetData) => {

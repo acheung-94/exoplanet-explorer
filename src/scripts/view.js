@@ -34,7 +34,7 @@ class View {
         g.addColorStop(1, "black")
         ctx.fillStyle = g
         ctx.fillRect(0,0, this.canvas.width, this.canvas.height)
-    } // *chef's kiss*
+    }
    
 }
 

@@ -127,7 +127,6 @@ function clearHighlightsExcept(planet){
     currentView.hostStar.planets.forEach ((otherPlanet) => {
         if (otherPlanet !== planet) {
             otherPlanet.selected = false
-            console.log(otherPlanet, otherPlanet.selected)
         }
         
     })
@@ -141,7 +140,7 @@ let musicKey;
 let currentView;
 let animating = false
 let i = 0;
-//const renderContainer = document.querySelector('.canvas-container')
+
 let canvas = document.querySelector('.background') 
 let container = canvas.parentNode.getBoundingClientRect();
 canvas.height = container.height
@@ -176,10 +175,8 @@ explore.addEventListener("click", function(){
     updateStatus()
     pause.innerText = "PAUSE"
     if (starSystemQueue.length < 1){
-        getStarSystemData() //hit the api and refresh the queue in the background. 
-
+        getStarSystemData() //refresh the queue in the background. 
     }
-    
 })
 
 
@@ -217,7 +214,6 @@ canvas.addEventListener("click", (event)=>{
         currentView.hostStar.planets.forEach((planet) => {
             let distance = getDistance(mousePos, planet.pos)
             if (distance <= (planet.radius + 10)) { // added a 10 px radius buffer for the baby planets
-                console.log(planet)
                 clearHighlightsExcept(planet)
                 planet.selected = true
                 PlanetChart.renderPlanetChart(planet, currentView.starSystem)
@@ -240,23 +236,21 @@ canvas.addEventListener("click", (event) => {
 })
 
 //planet card
-
-
-pCardButton.addEventListener("click", (event)=>{
+pCardButton.addEventListener("click", ()=>{
     PlanetChart.togglePlanetChart()
 })
 //close star card
 
-sCardButton.addEventListener("click", (event) => {
+sCardButton.addEventListener("click", () => {
     StarChart.toggleStarChart()
 })
+
 // modal listeners
 modal.addEventListener("wheel", Modal.scrollHandler)
 
 openButton.addEventListener("click", Modal.openModal)
 
 closeButton.addEventListener("click", Modal.closeModal)
-
 
 toggleMusic.addEventListener("click", ()=> {
     if (audioEl.paused) {

@@ -44,12 +44,12 @@ function removeHighlights () {
 
 export function scrollHandler(event) {
     let deltaY = event.deltaY
-    if (deltaY < 0) { // scroll down
+    if (deltaY < 0) { 
         i -= 1
         if (i < 0) {
             i = 0
         }
-    } else if (deltaY > 0) { //scroll up
+    } else if (deltaY > 0) { 
         i += 1
         if (i > 9) {
             i = 9

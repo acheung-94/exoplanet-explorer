@@ -5,10 +5,10 @@ class Planet {
         this.data = planetData
         this.hostStar = hostStar
         this.name = planetData["pl_name"]
-        this.radius = this.scaleRadius(planetData["pl_rade"], hostStar)
+        this.radius = this.newRadiusScaling(planetData["pl_rade"])
         this.distance = this.newDistanceScaling(planetData["pl_orbsmax"], hostStar)
-        this.angle = (Math.random() * (Math.PI*2)) // random starting angle in radians.
-        this.color = this.scaleColor(planetData.pl_eqt) // planetData["pl_insol"]
+        this.angle = (Math.random() * (Math.PI*2))
+        this.color = this.scaleColor(planetData.pl_eqt)
         this.vel = this.newAngularVelocity(planetData["pl_orbper"],planetData["pl_orbsmax"] ) // radians per frame
         this.pos = { "x" : hostStar.pos.x + (this.distance * Math.cos(this.angle)),
                      "y" : hostStar.pos.y + (this.distance * Math.sin(this.angle))}
@@ -21,63 +21,22 @@ class Planet {
             const tempScale = d3.scaleSequential([50, 1200], d3.interpolateTurbo)
             return tempScale(temp)
         }else{
-            return "gray"
+            return "#666666"
         }
     }
 
-    scaleRadius(radius, hostStar) {
-
-        if (radius > 10){
-            let conversion = hostStar.radius * 0.02
-            let scaled = radius * conversion
-            return scaled
-        }else {
-            return radius
-        }
-    }
-
-    scaleDistance(semiMajorAxis, hostStar) {
-        if (!semiMajorAxis || semiMajorAxis < 1.0){
-            return hostStar.radius + (Math.random() * (40-10) + 10)
-        }
-
-        if (semiMajorAxis >= 1.0 && semiMajorAxis < 2.0) {
-            return hostStar.radius + ((semiMajorAxis / 2) * 30) + 40
-        }else if (semiMajorAxis >= 2.0 && semiMajorAxis < 3.0) {
-            return hostStar.radius + ((semiMajorAxis / 3) * 30) + 80
-        }else if (semiMajorAxis >= 3.0 && semiMajorAxis < 4.0) {
-            return hostStar.radius + ((semiMajorAxis / 4) * 30) + 120
-        }else if (semiMajorAxis >= 4.0 && semiMajorAxis < 5.0) {
-            return hostStar.radius + ((semiMajorAxis / 5) * 30) + 160
-        }else{
-            return hostStar.radius + (Math.random() * (225-200) + 200)
-        }
-
-    }
-
-
-    angularVelocity (orbPer){
-        let velocity = ((Math.PI * 2) / (orbPer * 50)) // equates to radians per frame, ie the amount the planet must move per frame.
-        if (velocity < 0.01) {
-            velocity = (Math.random() * (1.0 - 0.5) + 0.5) * 0.01
-        }else if (velocity > 0.1) {
-            velocity = (Math.random() * (1.0 - 0.5) + 0.5) * 0.1
-        }
-        return velocity 
-    }
 
     draw(ctx){
         let g;
         let vecX = this.pos.x + ((this.radius * 0.5)*(Math.cos(this.angle - Math.PI)))
         let vecY = this.pos.y + ((this.radius * 0.5)*(Math.sin(this.angle - Math.PI)))
         
-        if (this.color === "gray"){
-           
+        if (this.color === "#666666"){
             g = ctx.createRadialGradient(
                 vecX, vecY, (this.radius/10), //starting circle in a vector pointing towards host star.
                 this.pos.x, this.pos.y, this.radius)
             g.addColorStop(0, "white")
-            g.addColorStop(1, "gray")
+            g.addColorStop(1, "#666666")
         }else{
             let o = this.color.slice(0, 3) + `a` + this.color.slice(3, this.color.length - 1) + `, 0.8)`
             g = ctx.createRadialGradient(
@@ -121,7 +80,7 @@ class Planet {
 
     newAngularVelocity (orbper, smax){
         if (!smax) {
-            smax = 10 // unknown semimajor axes
+            smax = this.estimateSMAxis(this.hostStar, this.data)
         }
 
         let orbPerRange = [1, 9000]
@@ -138,7 +97,7 @@ class Planet {
             smax = this.estimateSMAxis(hostStar, this.data)
         }
         let smaxRange = [0.02, 10]
-        let px = [hostStar.radius + 10, hostStar.radius + 220]
+        let px = [hostStar.radius + 20, hostStar.radius + 220]
 
         let distScale = d3.scaleLog().domain(smaxRange).range(px)
         distScale.clamp(true)
@@ -159,6 +118,15 @@ class Planet {
         let meters = Math.cbrt (top / bottom)
 
         return meters / 1.496e11
+    }
+
+    newRadiusScaling(radius){
+        let pxRange = [5,25]
+        let radRange = [0.3, 20]
+
+        let radScale = d3.scaleLinear().domain(radRange).range(pxRange)
+        radScale.clamp(true)
+        return radScale(radius)
     }
 
 }
