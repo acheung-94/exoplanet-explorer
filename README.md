@@ -22,10 +22,8 @@ Stylistically, this app draws heavy inspiration from Star Trek: The Next Generat
 - Each planet's orbit simulation is derived from its semi-major axis (The longest radius of an elliptic orbit, or the projected separation in the plane of the sky) and orbital period (the number of days it takes to complete a single rotation around its star.)
 - The range of values is extreme, from one day to over 12,000 days, and  0.05 to over 1000 AU. That being said, heavy liberties were taken while scaling and tuning data to ensure practicality of orbit visualization. I utilized d3's linear and logarithmic scaling functions to help maintain integrity of planetary movement while keeping it in a visually pleasing range of pixel values.
 Example: 
-``
-if (!smax) {
-    smax = this.estimateSMAxis(this.hostStar, this.data)
-}
+
+```json
 
 let orbPerRange = [1, 9000]
 let velRange = [0.08, 0.0015]
@@ -33,10 +31,9 @@ let velRange = [0.08, 0.0015]
 let velScale = d3.scaleLog().domain(orbPerRange).range(velRange)
 velScale.clamp(true)
 
-return velScale(orbper)
-``
+```
 - Some values, when not available, are extrapolated using light versions Kepler's laws of planetary motion.
-``
+```json
 estimateSMAxis(hostStar, planet) {
 hostStar.st_mass = hostStar.st_mass || 1.6
 planet.pl_bmasse = planet.pl_bmasse || 1.0
@@ -52,7 +49,7 @@ let meters = Math.cbrt (top / bottom)
 
 return meters / 1.496e11
 }
-``
+```
 - Planets also have been colorized based on their equilibrium temperatures. Red-orange suggest higher temperatures, green is around 550 K (Earth's EQT is about 550 after other factors.), and blue is less than ~400 K. Gray bodies don't have data available for colorization.
 
 ### Selection indicator for planets
@@ -81,7 +78,7 @@ return meters / 1.496e11
 
 
 # Wireframe:
-![wireframe](/assets/wireframe-new.png)
+![wireframe](/assets/wireframe-new.PNG)
 ### Title: Exoplanet Explorer!
 ### The header contains information about the following:
 - System Name: The name of the star system you're currently in.
