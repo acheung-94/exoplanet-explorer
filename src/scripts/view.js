@@ -18,7 +18,6 @@ class View {
             if(animating){
                 planet.move()
             }
-            //todo add a conditional during elliptical orbit phase - if distance between planet and host star center is < host star radius, do not draw.
             planet.draw(this.ctx)
         })
     }

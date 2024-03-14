@@ -33,14 +33,14 @@ class Planet {
         
         if (this.color === "#666666"){
             g = ctx.createRadialGradient(
-                vecX, vecY, (this.radius/10), //starting circle in a vector pointing towards host star.
+                vecX, vecY, (this.radius/10), 
                 this.pos.x, this.pos.y, this.radius)
             g.addColorStop(0, "white")
             g.addColorStop(1, "#666666")
         }else{
             let o = this.color.slice(0, 3) + `a` + this.color.slice(3, this.color.length - 1) + `, 0.8)`
             g = ctx.createRadialGradient(
-                vecX, vecY, (this.radius/10), //starting circle
+                vecX, vecY, (this.radius/10),
                 this.pos.x, this.pos.y, this.radius)
             g.addColorStop(0, this.color)
             g.addColorStop(1, o)
@@ -72,7 +72,7 @@ class Planet {
     }
 
     move(){    
-        this.angle += this.vel // add this many radians to the current angle.
+        this.angle += this.vel 
         this.pos.x = this.hostStar.pos.x + (this.distance * Math.cos(this.angle))
         this.pos.y = this.hostStar.pos.y + (this.distance * Math.sin(this.angle))
 

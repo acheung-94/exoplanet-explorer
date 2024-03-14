@@ -252,6 +252,7 @@ openButton.addEventListener("click", Modal.openModal)
 
 closeButton.addEventListener("click", Modal.closeModal)
 
+//music
 toggleMusic.addEventListener("click", ()=> {
     if (audioEl.paused) {
         audioEl.volume = 0
