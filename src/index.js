@@ -89,10 +89,6 @@ function getDistance(mouse, object){
     return Math.sqrt(a+b)
 }
 
-function startAnimation(){
-    refreshKey = setInterval(()=> currentView.animate(), 20)
-}
-
 function updateStatus () {
     let systemStatus = document.querySelector(".system")
     let engage = document.querySelector(".explore")
@@ -163,8 +159,8 @@ explore.addEventListener("click", function(){
     let starSystem = starSystemQueue.shift()
     StarChart.populateStarChart(starSystem)
     currentView = new View(starSystem, canvas)
-    refreshKey = setInterval(() => currentView.animate(), 20)
     animating = true
+    refreshKey = setInterval(() => currentView.animate(animating), 20)
     updateStatus()
     pause.innerText = "PAUSE"
     if (starSystemQueue.length < 1){
@@ -177,11 +173,9 @@ explore.addEventListener("click", function(){
 const pause = document.querySelector(".pause")
 pause.addEventListener("click", ()=>{
     if (animating) {
-        clearInterval(refreshKey)
         animating = false
         pause.innerText = "RESUME"
     }else{
-        startAnimation()
         animating = true
         pause.innerText = "PAUSE"
     }
@@ -211,6 +205,9 @@ canvas.addEventListener("click", (event)=>{
         currentView.hostStar.planets.forEach((planet) => {
             let distance = getDistance(mousePos, planet.pos)
             if (distance <= (planet.radius + 10)) { // added a 10 px radius buffer for the baby planets
+                // clear all highlights and write a drawStatic(ctx) that ignores highlight status to override the mousemove version. 
+                planet.highlighted = true
+                planet.draw(ctx)
                 PlanetChart.renderPlanetChart(planet, currentView.starSystem)
                 //PlanetChart.togglePlanetChart()
             }

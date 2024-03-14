@@ -134,7 +134,6 @@ class Planet {
 
     newDistanceScaling(smax, hostStar) {
         if (!smax) {
-            console.log(this.data)
             smax = this.estimateSMAxis(hostStar, this.data)
         }
         let smaxRange = [0.02, 10]

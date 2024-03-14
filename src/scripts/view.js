@@ -11,12 +11,14 @@ class View {
         this.planets = this.hostStar.planets
     } 
 
-    animate () {
-        //console.log(animating)
+    animate (animating) {
+        console.log(animating)
         this.draw(this.ctx)
         this.hostStar.draw(this.ctx)
         this.planets.forEach ( (planet) => {
-            planet.move()
+            if(animating){
+                planet.move()
+            }
             //todo add a conditional during elliptical orbit phase - if distance between planet and host star center is < host star radius, do not draw.
             planet.draw(this.ctx)
         })
