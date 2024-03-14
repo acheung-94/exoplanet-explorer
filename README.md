@@ -20,7 +20,7 @@ Stylistically, this app draws heavy inspiration from Star Trek: The Next Generat
 
 ### Dynamically rendered planets
 - Each planet's orbit simulation is derived from its semi-major axis (The longest radius of an elliptic orbit, or the projected separation in the plane of the sky) and orbital period (the number of days it takes to complete a single rotation around its star.)
-- the range of values is extreme, from one day to over 12,000 days, and  0.05 to over 1000 AU. That being said, the liberties were taken while scaling and tuning data to ensure practicality of orbit visualization. I utilized d3's linear and logarithmic scaling functions to help maintain integrity of planetary movement while keeping it in a visually pleasing range of pixel values.
+- The range of values is extreme, from one day to over 12,000 days, and  0.05 to over 1000 AU. That being said, heavy liberties were taken while scaling and tuning data to ensure practicality of orbit visualization. I utilized d3's linear and logarithmic scaling functions to help maintain integrity of planetary movement while keeping it in a visually pleasing range of pixel values.
 Example: 
 `
         if (!smax) {
