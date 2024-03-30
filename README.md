@@ -1,5 +1,5 @@
 # Exoplanet Explorer
-
+🚀[**Live Demo**](https://acheung-94.github.io/exoplanet-explorer/) 
 # Background:
 Exoplanet Explorer is a data visualization project that aims to  display and interpret known information about a random exoplanetary system obtained from the NASA Exoplanetary Archive. 
 
